@@ -52,6 +52,27 @@ function showDataBadge() {
     badge.innerHTML = `⚪ Static data · ${doctors.length} doctors`;
     badge.style.display = 'inline-block';
   }
+  updateHeroStats();
+}
+
+function updateHeroStats() {
+  // Update doctor count
+  const statDoctors = document.getElementById('statDoctors');
+  if (statDoctors) {
+    const count = doctors.length;
+    statDoctors.textContent = count >= 1000
+      ? Math.floor(count / 100) * 100 + '+'
+      : count + '+';
+  }
+  // Update average rating from live data
+  const statRating = document.getElementById('statRating');
+  if (statRating) {
+    const rated = doctors.filter(d => d.rating > 0);
+    if (rated.length > 0) {
+      const avg = rated.reduce((s, d) => s + d.rating, 0) / rated.length;
+      statRating.textContent = avg.toFixed(1) + '★';
+    }
+  }
 }
 
 function timeSince(date) {
