@@ -1,0 +1,84 @@
+{
+  "updated": "2026-05-23T10:00:00Z",
+  "count": 3,
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. Sara Ahmed",
+      "specialty": "Cardiologist",
+      "qualification": "MBBS, FCPS",
+      "experience": 12,
+      "fee": 3500,
+      "rating": 4.8,
+      "reviews": 120,
+      "area": "F-8 Markaz",
+      "clinic": "Shifa Hospital",
+      "address": "F-8, ISB",
+      "phone": "051-111",
+      "available": true,
+      "nextSlot": "Today 4pm",
+      "timings": "Mon-Sat 4-8pm",
+      "about": "Cardiologist.",
+      "tags": [
+        "Heart",
+        "ECG"
+      ],
+      "gender": "Female",
+      "photo": "https://ui-avatars.com/api/?name=Sara+Ahmed&background=0ea5e9&color=fff&size=128",
+      "source": "Marham",
+      "profileUrl": "https://www.marham.pk/doctors/sara-ahmed"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Ali Khan",
+      "specialty": "Neurologist",
+      "qualification": "MBBS, MRCP",
+      "experience": 8,
+      "fee": 4000,
+      "rating": 4.6,
+      "reviews": 90,
+      "area": "G-11",
+      "clinic": "Kulsum Hospital",
+      "address": "G-11, ISB",
+      "phone": "051-222",
+      "available": true,
+      "nextSlot": "Tomorrow 11am",
+      "timings": "Mon-Fri 10am-2pm",
+      "about": "Neurologist.",
+      "tags": [
+        "Brain",
+        "Spine"
+      ],
+      "gender": "Male",
+      "photo": "https://ui-avatars.com/api/?name=Ali+Khan&background=7c3aed&color=fff&size=128",
+      "source": "Oladoc",
+      "profileUrl": "https://oladoc.com/doctors/ali-khan"
+    },
+    {
+      "id": 3,
+      "name": "Dr. Fatima Noor",
+      "specialty": "Pediatrician",
+      "qualification": "MBBS, DCH",
+      "experience": 5,
+      "fee": 2500,
+      "rating": 4.9,
+      "reviews": 200,
+      "area": "DHA Phase 2",
+      "clinic": "Advanced Hospital",
+      "address": "DHA, ISB",
+      "phone": "051-333",
+      "available": false,
+      "nextSlot": "Sat 3pm",
+      "timings": "Tue-Sun 3-7pm",
+      "about": "Pediatrician.",
+      "tags": [
+        "Children",
+        "Vaccines"
+      ],
+      "gender": "Female",
+      "photo": "https://ui-avatars.com/api/?name=Fatima+Noor&background=db2777&color=fff&size=128",
+      "source": "Shifa Hospital",
+      "profileUrl": "https://www.shifa.com.pk/dr-fatima-noor"
+    }
+  ]
+}
