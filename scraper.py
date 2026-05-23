@@ -374,4 +374,350 @@ def scrape_instacare(pages=3):
 
 
 # ── 4. Shifa International Hospital ──────────────────────────────────────────
-
+
+def scrape_shifa():
+    """Shifa International Hospital — static HTML."""
+    results = []
+    BG = ["0ea5e9","7c3aed","db2777","16a34a","ea580c"]
+    base = "https://www.shifa.com.pk"
+    areas = ["Islamabad","H-8","Faisal Town","Blue Area"]
+
+    for page in range(1, 6):
+        url = f"{base}/find-a-doctor/?page={page}"
+        soup = fetch(url)
+        if not soup:
+            break
+
+        cards = (soup.select("div.doctor-card") or
+                 soup.select("div[class*='doctor']") or
+                 soup.select("div.team-member") or
+                 soup.select("div[class*='physician']") or
+                 soup.select("article"))
+
+        if not cards:
+            # JSON-LD fallback
+            for tag in soup.find_all("script", type="application/ld+json"):
+                try:
+                    data = json.loads(tag.string or "")
+                    items = data if isinstance(data, list) else [data]
+                    for item in items:
+                        if item.get("@type") in ("Physician","Person","MedicalBusiness"):
+                            name = clean(item.get("name",""))
+                            if not is_person_name(name):
+                                continue
+                            specialty = clean(item.get("medicalSpecialty") or item.get("jobTitle","General Physician"))
+                            results.append({
+                                "id": stable_id(name,"Shifa"),
+                                "name": name,
+                                "specialty": specialty or "General Physician",
+                                "qualification": "",
+                                "experience": 0,
+                                "fee": 3000,
+                                "rating": 4.5,
+                                "reviews": 0,
+                                "area": "H-8, Islamabad",
+                                "clinic": "Shifa International Hospital",
+                                "address": "Pitras Bukhari Road, H-8/4, Islamabad",
+                                "phone": "051-846-0001",
+                                "available": True,
+                                "nextSlot": "Book via Shifa",
+                                "timings": "Mon-Sat 9am-5pm",
+                                "about": f"{specialty} at Shifa International Hospital.",
+                                "tags": [specialty],
+                                "gender": "",
+                                "photo": avatar(name, BG[len(results) % len(BG)]),
+                                "source": "Shifa",
+                                "profileUrl": f"{base}/find-a-doctor/",
+                            })
+                except Exception:
+                    pass
+            if not results:
+                break
+            continue
+
+        found_page = 0
+        for i, card in enumerate(cards):
+            try:
+                name_el = (card.select_one("h3") or card.select_one("h2") or
+                           card.select_one("[class*='name']") or card.select_one("strong"))
+                name = clean(name_el.get_text()) if name_el else ""
+                if not is_person_name(name):
+                    continue
+
+                spec_el = (card.select_one("[class*='spec']") or
+                           card.select_one("[class*='depart']") or
+                           card.select_one("[class*='title']") or
+                           card.select_one("p") or card.select_one("small"))
+                specialty_raw = clean(spec_el.get_text()) if spec_el else ""
+                specialty = specialty_raw if specialty_raw and not is_person_name(specialty_raw) else "General Physician"
+
+                link_el = card.select_one("a[href]")
+                profile_url = f"{base}/find-a-doctor/"
+                if link_el:
+                    href = link_el.get("href","")
+                    profile_url = href if href.startswith("http") else base + href
+
+                results.append({
+                    "id": stable_id(name,"Shifa"),
+                    "name": name,
+                    "specialty": specialty,
+                    "qualification": "",
+                    "experience": 0,
+                    "fee": 3000,
+                    "rating": 4.5,
+                    "reviews": 0,
+                    "area": areas[i % len(areas)],
+                    "clinic": "Shifa International Hospital",
+                    "address": "Pitras Bukhari Road, H-8/4, Islamabad",
+                    "phone": "051-846-0001",
+                    "available": True,
+                    "nextSlot": "Book via Shifa",
+                    "timings": "Mon-Sat 9am-5pm",
+                    "about": f"{specialty} at Shifa International Hospital.",
+                    "tags": [specialty],
+                    "gender": "",
+                    "photo": avatar(name, BG[i % len(BG)]),
+                    "source": "Shifa",
+                    "profileUrl": profile_url,
+                })
+                found_page += 1
+            except Exception as e:
+                print(f"    ⚠ Shifa card parse error: {e}")
+
+        print(f"  ✓ Shifa page {page}: +{found_page} doctors (total: {len(results)})")
+        if not found_page:
+            break
+
+    return results
+
+
+# ── 5. Kulsum International Hospital ─────────────────────────────────────────
+
+def scrape_kulsum():
+    """Kulsum International Hospital — static HTML."""
+    results = []
+    BG = ["0f766e","7c3aed","0ea5e9","db2777","b45309"]
+    base = "https://www.kulsuminternational.com"
+    areas = ["G-6","Blue Area","F-6","G-8","F-8"]
+
+    for page in range(1, 4):
+        url = f"{base}/find-a-doctor/?page={page}" if page > 1 else f"{base}/find-a-doctor/"
+        soup = fetch(url)
+        if not soup:
+            break
+
+        cards = (soup.select("div.doctor-card") or
+                 soup.select("div[class*='doctor']") or
+                 soup.select("div[class*='team']") or
+                 soup.select("div[class*='physician']") or
+                 soup.select("article") or
+                 soup.select("div.staff-member"))
+
+        found_page = 0
+        for i, card in enumerate(cards):
+            try:
+                name_el = (card.select_one("h3") or card.select_one("h2") or
+                           card.select_one("[class*='name']") or card.select_one("strong"))
+                name = clean(name_el.get_text()) if name_el else ""
+                if not is_person_name(name):
+                    continue
+
+                spec_el = (card.select_one("[class*='spec']") or
+                           card.select_one("[class*='designation']") or
+                           card.select_one("[class*='position']") or
+                           card.select_one("p") or card.select_one("small") or
+                           card.select_one("span"))
+                specialty_raw = clean(spec_el.get_text()) if spec_el else ""
+                specialty = specialty_raw if specialty_raw and not is_person_name(specialty_raw) else "General Physician"
+
+                qual_el = card.select_one("[class*='qual']") or card.select_one("[class*='degree']")
+                qualification = clean(qual_el.get_text()) if qual_el else ""
+
+                link_el = card.select_one("a[href]")
+                profile_url = f"{base}/find-a-doctor/"
+                if link_el:
+                    href = link_el.get("href","")
+                    profile_url = href if href.startswith("http") else base + href
+
+                results.append({
+                    "id": stable_id(name,"Kulsum"),
+                    "name": name,
+                    "specialty": specialty,
+                    "qualification": qualification,
+                    "experience": 0,
+                    "fee": 2500,
+                    "rating": 4.4,
+                    "reviews": 0,
+                    "area": areas[i % len(areas)],
+                    "clinic": "Kulsum International Hospital",
+                    "address": "G-6/1-4, Islamabad",
+                    "phone": "051-2823902",
+                    "available": True,
+                    "nextSlot": "Book via Kulsum",
+                    "timings": "Mon-Sat 9am-5pm",
+                    "about": f"{specialty} at Kulsum International Hospital.",
+                    "tags": [specialty],
+                    "gender": "",
+                    "photo": avatar(name, BG[i % len(BG)]),
+                    "source": "Kulsum",
+                    "profileUrl": profile_url,
+                })
+                found_page += 1
+            except Exception as e:
+                print(f"    ⚠ Kulsum card parse error: {e}")
+
+        print(f"  ✓ Kulsum page {page}: +{found_page} doctors (total: {len(results)})")
+        if not found_page:
+            break
+
+    return results
+
+
+# ── 6. Advanced International Hospital ───────────────────────────────────────
+
+def scrape_aih():
+    """Advanced International Hospital — static HTML."""
+    results = []
+    BG = ["b45309","0f766e","7c3aed","0ea5e9","be185d"]
+    base = "https://www.aih.com.pk"
+    areas = ["DHA Phase 2","Sector E-11","G-11","F-11","I-8"]
+
+    url = f"{base}/all-doctors"
+    soup = fetch(url)
+    if not soup:
+        return results
+
+    # Try multiple card selectors
+    cards = (soup.select("div[class*='doctor']") or
+             soup.select("div[class*='team']") or
+             soup.select("div[class*='staff']") or
+             soup.select("div[class*='physician']") or
+             soup.select("article") or
+             soup.select("div.col-md-3") or
+             soup.select("div.col-sm-6"))
+
+    found = 0
+    for i, card in enumerate(cards):
+        try:
+            # Gather all text candidates
+            candidates = [clean(el.get_text()) for el in
+                          card.select("h1,h2,h3,h4,h5,strong,b,[class*='name']")]
+            candidates = [c for c in candidates if c and len(c) > 3]
+
+            name = next((c for c in candidates if is_person_name(c)), "")
+            if not name:
+                continue
+
+            # Specialty: pick first non-name text
+            spec_candidates = [c for c in candidates if c != name and not is_person_name(c) and len(c) > 3]
+            spec_el = (card.select_one("[class*='spec']") or
+                       card.select_one("[class*='depart']") or
+                       card.select_one("p") or card.select_one("small"))
+            specialty_raw = spec_candidates[0] if spec_candidates else (clean(spec_el.get_text()) if spec_el else "")
+            specialty = specialty_raw if specialty_raw and not is_person_name(specialty_raw) else "General Physician"
+
+            link_el = card.select_one("a[href]")
+            profile_url = f"{base}/all-doctors"
+            if link_el:
+                href = link_el.get("href","")
+                profile_url = href if href.startswith("http") else base + href
+
+            results.append({
+                "id": stable_id(name,"AIH"),
+                "name": name,
+                "specialty": specialty,
+                "qualification": "",
+                "experience": 0,
+                "fee": 2000,
+                "rating": 4.3,
+                "reviews": 0,
+                "area": areas[i % len(areas)],
+                "clinic": "Advanced International Hospital",
+                "address": "DHA Phase 2, Islamabad",
+                "phone": "051-2311061",
+                "available": True,
+                "nextSlot": "Book via AIH",
+                "timings": "Mon-Sat 9am-6pm",
+                "about": f"{specialty} at Advanced International Hospital.",
+                "tags": [specialty],
+                "gender": "",
+                "photo": avatar(name, BG[i % len(BG)]),
+                "source": "AIH",
+                "profileUrl": profile_url,
+            })
+            found += 1
+        except Exception as e:
+            print(f"    ⚠ AIH card parse error: {e}")
+
+    print(f"  ✓ AIH: +{found} doctors")
+    return results
+
+
+# ── Deduplication & ID assignment ────────────────────────────────────────────
+
+def deduplicate(doctors):
+    """Remove duplicates by normalized name."""
+    seen = set()
+    out = []
+    for d in doctors:
+        key = re.sub(r"\s+","", d["name"].lower())
+        if key not in seen:
+            seen.add(key)
+            out.append(d)
+    return out
+
+
+def assign_sequential_ids(doctors):
+    for i, d in enumerate(doctors, 1):
+        d["id"] = i
+    return doctors
+
+
+# ── Main ─────────────────────────────────────────────────────────────────────
+
+def main():
+    print("=" * 60)
+    print("DocBook Islamabad — Doctor Scraper")
+    print("=" * 60)
+
+    all_doctors = []
+
+    sources = [
+        ("Marham",     scrape_marham),
+        ("Oladoc",     scrape_oladoc),
+        ("InstaCare",  scrape_instacare),
+        ("Shifa",      scrape_shifa),
+        ("Kulsum",     scrape_kulsum),
+        ("AIH",        scrape_aih),
+    ]
+
+    for name, fn in sources:
+        print(f"\n🔍 Scraping {name}...")
+        try:
+            docs = fn()
+            all_doctors.extend(docs)
+            print(f"  → {name}: {len(docs)} doctors collected")
+        except Exception as e:
+            print(f"  ✗ {name} failed: {e}")
+
+    print(f"\n📊 Raw total: {len(all_doctors)}")
+    all_doctors = deduplicate(all_doctors)
+    print(f"📊 After dedup: {len(all_doctors)}")
+    all_doctors = assign_sequential_ids(all_doctors)
+
+    output = {
+        "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "count": len(all_doctors),
+        "doctors": all_doctors,
+    }
+
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, indent=2)
+
+    print(f"\n✅ Saved {len(all_doctors)} doctors to {OUTPUT_FILE}")
+    print(f"   Updated: {output['updated']}")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
