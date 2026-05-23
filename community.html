@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Islamabad Community – News, Events & Health Updates</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏙️</text></svg>">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Community Page Styles ── */
+    .community-hero {
+      background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 100%);
+      padding: 48px 0 40px;
+      color: #fff;
+      text-align: center;
+    }
+    .community-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+    .community-hero p  { font-size: 1rem; opacity: .85; margin-bottom: 20px; }
+    .community-stats {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    .c-stat { text-align: center; }
+    .c-stat strong { display: block; font-size: 1.4rem; font-weight: 800; }
+    .c-stat span   { font-size: .8rem; opacity: .8; }
+
+    /* ── Layout ── */
+    .community-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr 280px;
+      gap: 24px;
+      padding: 32px 0 48px;
+      align-items: start;
+    }
+
+    /* ── Left sidebar ── */
+    .comm-sidebar-left, .comm-sidebar-right {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .comm-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    }
+    .comm-card h3 {
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: #0ea5e9; margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e0f2fe;
+    }
+
+    /* Category filter */
+    .cat-list { list-style: none; margin: 0; padding: 0; }
+    .cat-list li {
+      padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: #374151;
+      display: flex; align-items: center; gap: 10px;
+      transition: background .15s;
+    }
+    .cat-list li:hover, .cat-list li.active {
+      background: #e0f2fe; color: #0284c7;
+    }
+    .cat-count {
+      margin-left: auto; background: #f1f5f9;
+      font-size: 11px; padding: 1px 7px;
+      border-radius: 10px; color: #64748b;
+    }
+
+    /* ── Main feed ── */
+    .feed-toolbar {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .feed-toolbar h2 { font-size: 18px; font-weight: 700; flex: 1; }
+    .feed-search {
+      padding: 8px 14px; border: 1px solid #e5e7eb;
+      border-radius: 20px; font-size: 14px; width: 200px;
+      outline: none; transition: border-color .2s;
+    }
+    .feed-search:focus { border-color: #0ea5e9; }
+    .refresh-btn {
+      padding: 8px 16px; background: #0ea5e9; color: #fff;
+      border: none; border-radius: 20px; font-size: 13px;
+      font-weight: 600; cursor: pointer; transition: background .2s;
+    }
+    .refresh-btn:hover { background: #0284c7; }
+    .refresh-btn:disabled { background: #94a3b8; cursor: default; }
+
+    /* News card */
+    .news-grid { display: flex; flex-direction: column; gap: 16px; }
+    .news-card {
+      background: #fff; border-radius: 14px;
+      padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      display: flex; gap: 16px;
+      transition: box-shadow .2s, transform .2s;
+      cursor: pointer; text-decoration: none; color: inherit;
+    }
+    .news-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      transform: translateY(-1px);
+    }
+    .news-thumb {
+      width: 90px; height: 70px; border-radius: 10px;
+      object-fit: cover; flex-shrink: 0; background: #e5e7eb;
+    }
+    .news-thumb-placeholder {
+      width: 90px; height: 70px; border-radius: 10px;
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+      flex-shrink: 0; display: flex; align-items: center;
+      justify-content: center; font-size: 24px;
+    }
+    .news-body { flex: 1; min-width: 0; }
+    .news-cat-badge {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 2px 8px; border-radius: 10px; margin-bottom: 6px;
+    }
+    .news-title {
+      font-size: 15px; font-weight: 600; color: #111827;
+      line-height: 1.4; margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .news-meta {
+      font-size: 12px; color: #9ca3af;
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .news-source { font-weight: 600; color: #6b7280; }
+
+    /* AI badge */
+    .ai-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 700; padding: 2px 8px;
+      background: #fef3c7; color: #d97706; border-radius: 10px;
+    }
+
+    /* Loading skeleton */
+    .skeleton-card {
+      background: #fff; border-radius: 14px;
+      padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      display: flex; gap: 16px;
+    }
+    .skel {
+      background: linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 6px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    .empty-feed {
+      text-align: center; padding: 48px 20px;
+      color: #9ca3af; background: #fff; border-radius: 14px;
+    }
+    .empty-feed .icon { font-size: 48px; margin-bottom: 12px; }
+
+    /* ── Right sidebar ── */
+    .trending-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid #f3f4f6;
+      font-size: 13px; cursor: pointer;
+    }
+    .trending-item:last-child { border-bottom: none; }
+    .trending-num {
+      font-size: 18px; font-weight: 800; color: #e5e7eb;
+      flex-shrink: 0; width: 20px;
+    }
+    .trending-title { font-weight: 500; color: #374151; line-height: 1.35; }
+    .trending-src   { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+
+    /* Health tips */
+    .health-tip {
+      padding: 12px; background: #f0fdf4; border-radius: 10px;
+      margin-bottom: 10px; font-size: 13px; color: #374151;
+      border-left: 3px solid #22c55e; line-height: 1.5;
+    }
+    .health-tip strong { color: #15803d; }
+
+    /* Last updated */
+    .last-updated {
+      text-align: center; font-size: 12px; color: #9ca3af;
+      padding: 8px; margin-top: 4px;
+    }
+
+    /* Badge colours per category */
+    .badge-news    { background: #dbeafe; color: #1d4ed8; }
+    .badge-health  { background: #dcfce7; color: #15803d; }
+    .badge-events  { background: #fef3c7; color: #b45309; }
+    .badge-business{ background: #fce7f3; color: #9d174d; }
+    .badge-govt    { background: #ede9fe; color: #6d28d9; }
+    .badge-weather { background: #e0f2fe; color: #0369a1; }
+
+    @media (max-width: 1024px) {
+      .community-layout { grid-template-columns: 1fr; }
+      .comm-sidebar-left, .comm-sidebar-right { display: none; }
+    }
+    @media (max-width: 600px) {
+      .news-thumb, .news-thumb-placeholder { display: none; }
+      .community-hero h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body data-page="community">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🏥</span>
+      <span class="logo-text">DocBook <span class="logo-sub">Islamabad</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="doctors.html">Find Doctors</a></li>
+      <li><a href="community.html" class="active">Community</a></li>
+      <li><a href="register-doctor.html" class="nav-cta">List Your Practice</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Find Doctors</a>
+    <a href="community.html">Community</a>
+    <a href="register-doctor.html">List Your Practice</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="community-hero">
+  <div class="container">
+    <h1>🏙️ Islamabad Community</h1>
+    <p>Real-time news, events, health updates & local happenings — all in one place</p>
+    <div class="community-stats">
+      <div class="c-stat"><strong id="statArticles">–</strong><span>Articles Today</span></div>
+      <div class="c-stat"><strong id="statSources">6</strong><span>News Sources</span></div>
+      <div class="c-stat"><strong>🤖 AI</strong><span>Filtered for Islamabad</span></div>
+      <div class="c-stat"><strong id="statUpdated">–</strong><span>Last Refreshed</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="container community-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="comm-sidebar-left">
+    <div class="comm-card">
+      <h3>Categories</h3>
+      <ul class="cat-list" id="catList">
+        <li class="active" onclick="filterCat('all',this)">🌐 All News <span class="cat-count" id="cnt-all">0</span></li>
+        <li onclick="filterCat('health',this)">🏥 Health <span class="cat-count" id="cnt-health">0</span></li>
+        <li onclick="filterCat('events',this)">📅 Events <span class="cat-count" id="cnt-events">0</span></li>
+        <li onclick="filterCat('business',this)">💼 Business <span class="cat-count" id="cnt-business">0</span></li>
+        <li onclick="filterCat('govt',this)">🏛️ Government <span class="cat-count" id="cnt-govt">0</span></li>
+        <li onclick="filterCat('weather',this)">☁️ Weather <span class="cat-count" id="cnt-weather">0</span></li>
+        <li onclick="filterCat('news',this)">📰 General <span class="cat-count" id="cnt-news">0</span></li>
+      </ul>
+    </div>
+
+    <div class="comm-card">
+      <h3>Sources</h3>
+      <ul class="cat-list">
+        <li>📰 Dawn.com</li>
+        <li>📺 Geo News</li>
+        <li>📡 ARY News</li>
+        <li>🗞️ The News</li>
+        <li>📻 Radio Pakistan</li>
+        <li>🏥 Health News PK</li>
+      </ul>
+    </div>
+
+    <div class="comm-card">
+      <h3>Quick Links</h3>
+      <ul class="cat-list">
+        <li onclick="window.open('https://www.cda.gov.pk','_blank')">🏛️ CDA Islamabad</li>
+        <li onclick="window.open('https://islamabad.gov.pk','_blank')">📋 ICT Administration</li>
+        <li onclick="window.open('https://www.pmd.gov.pk','_blank')">🌤️ PMD Weather</li>
+        <li><a href="doctors.html" style="text-decoration:none;color:inherit">🏥 Find a Doctor</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN FEED -->
+  <main>
+    <div class="feed-toolbar">
+      <h2>Latest from Islamabad</h2>
+      <input type="text" class="feed-search" id="newsSearch" placeholder="Search news..." oninput="searchNews()" />
+      <button class="refresh-btn" id="refreshBtn" onclick="loadAllFeeds()">↺ Refresh</button>
+    </div>
+
+    <div id="newsFeed" class="news-grid">
+      <!-- Skeleton loaders -->
+      ${[1,2,3,4,5].map(()=>`
+      <div class="skeleton-card">
+        <div class="skel" style="width:90px;height:70px;border-radius:10px;flex-shrink:0"></div>
+        <div style="flex:1">
+          <div class="skel" style="height:12px;width:60px;margin-bottom:8px"></div>
+          <div class="skel" style="height:16px;width:100%;margin-bottom:6px"></div>
+          <div class="skel" style="height:14px;width:80%"></div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="last-updated" id="lastUpdated"></div>
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="comm-sidebar-right">
+    <div class="comm-card">
+      <h3>🔥 Trending Now</h3>
+      <div id="trendingList">
+        <div style="color:#9ca3af;font-size:13px;padding:8px 0">Loading trending topics...</div>
+      </div>
+    </div>
+
+    <div class="comm-card">
+      <h3>💊 Health Tips</h3>
+      <div class="health-tip"><strong>Stay Hydrated</strong><br>Islamabad summers can be intense. Drink at least 8 glasses of water daily.</div>
+      <div class="health-tip"><strong>Air Quality</strong><br>Check AQI before outdoor exercise. Smog season runs Oct–Feb in the region.</div>
+      <div class="health-tip"><strong>Dengue Alert</strong><br>Use repellent and remove stagnant water around your home during monsoon season.</div>
+      <a href="doctors.html" class="btn-primary" style="display:block;text-align:center;text-decoration:none;padding:10px;margin-top:12px;border-radius:10px;font-size:14px">Book a Doctor →</a>
+    </div>
+
+    <div class="comm-card">
+      <h3>📍 About This Feed</h3>
+      <p style="font-size:13px;color:#6b7280;line-height:1.6">
+        This community feed uses AI keyword filtering to surface only Islamabad-relevant news from major Pakistani news sources. Articles are refreshed automatically every time you visit.
+      </p>
+      <div class="ai-tag" style="margin-top:10px">🤖 AI Filtered</div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🏥</span>
+      <span class="logo-text">DocBook <span class="logo-sub">Islamabad</span></span>
+      <p>Pakistan's trusted doctor booking platform for Islamabad residents.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="doctors.html">Find Doctors</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="register-doctor.html">List Your Practice</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Contact</h4>
+      <ul>
+        <li>📍 Islamabad, Pakistan</li>
+        <li><a href="https://wa.me/923168818693" target="_blank">📞 0316-8818693</a></li>
+        <li><a href="mailto:raees.malik89@gmail.com">✉️ raees.malik89@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 DocBook Islamabad. All rights reserved.</p></div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════
+// AI-POWERED ISLAMABAD NEWS FEED
+// Uses rss2json.com to fetch RSS feeds client-side (no backend needed)
+// Filters articles using AI keyword matching for Islamabad relevance
+// ══════════════════════════════════════════════════════════════════════════
+
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+// ── News Sources ──────────────────────────────────────────────────────────
+const SOURCES = [
+  { name: 'Dawn',      url: 'https://www.dawn.com/feeds/home',                    icon: '📰', color: '#1d4ed8' },
+  { name: 'Geo News',  url: 'https://www.geo.tv/rss/1/1',                         icon: '📺', color: '#dc2626' },
+  { name: 'ARY News',  url: 'https://arynews.tv/feed/',                           icon: '📡', color: '#7c3aed' },
+  { name: 'The News',  url: 'https://www.thenews.com.pk/rss/1/1',                 icon: '🗞️', color: '#0f766e' },
+  { name: 'Dawn Health', url: 'https://www.dawn.com/feeds/health-and-fitness',    icon: '🏥', color: '#15803d' },
+  { name: 'Tribune',   url: 'https://tribune.com.pk/feed',                        icon: '📻', color: '#b45309' },
+];
+
+// ── AI Keyword Engine ─────────────────────────────────────────────────────
+// Scores articles for Islamabad relevance using weighted keyword matching
+const ISLAMABAD_KEYWORDS = {
+  location:  { words: ['islamabad','rawalpindi','pindi','twin cities','ict','cda','f-7','f-8','g-9','blue area','margalla','saidpur','bahria','dha islamabad'], weight: 5 },
+  govt:      { words: ['parliament','senate','national assembly','supreme court','prime minister','imran','shehbaz','federal government','caretaker','election commission','na-'], weight: 3 },
+  health:    { words: ['hospital','doctor','pmdc','health ministry','dengue','smog','flu','vaccine','clinic','shifa','polyclinic','pims','mental health'], weight: 4 },
+  events:    { words: ['festival','event','concert','exhibition','ceremony','inauguration','conference','seminar','workshop','fair','cultural','literature festival'], weight: 4 },
+  business:  { words: ['stock exchange','psx','sbp','state bank','inflation','rupee','dollar','economy','investment','startup','tech park','ict sector'], weight: 3 },
+  weather:   { words: ['weather','temperature','rain','fog','smog','heatwave','cold wave','aqi','air quality','pmd','monsoon','flood alert'], weight: 4 },
+};
+
+// Category detection
+const CATEGORY_KEYWORDS = {
+  health:   ['hospital','doctor','health','medical','dengue','vaccine','disease','patient','clinic','treatment','pmdc','medicine'],
+  events:   ['event','festival','concert','ceremony','inauguration','cultural','exhibition','seminar','workshop','launch'],
+  business: ['economy','rupee','dollar','stock','investment','trade','inflation','sbp','budget','tax','business'],
+  govt:     ['parliament','government','minister','court','police','election','senate','assembly','pmln','pti','ppp'],
+  weather:  ['weather','rain','fog','smog','temperature','heat','cold','aqi','flood','pmd'],
+};
+
+function scoreArticle(article) {
+  const text = ((article.title || '') + ' ' + (article.description || '') + ' ' + (article.content || '')).toLowerCase();
+  let score = 0;
+  for (const [cat, {words, weight}] of Object.entries(ISLAMABAD_KEYWORDS)) {
+    for (const word of words) {
+      if (text.includes(word)) score += weight;
+    }
+  }
+  return score;
+}
+
+function detectCategory(article) {
+  const text = ((article.title || '') + ' ' + (article.description || '')).toLowerCase();
+  let best = 'news', bestScore = 0;
+  for (const [cat, words] of Object.entries(CATEGORY_KEYWORDS)) {
+    const score = words.filter(w => text.includes(w)).length;
+    if (score > bestScore) { bestScore = score; best = cat; }
+  }
+  return best;
+}
+
+function badgeClass(cat) {
+  return { health:'badge-health', events:'badge-events', business:'badge-business',
+           govt:'badge-govt', weather:'badge-weather', news:'badge-news' }[cat] || 'badge-news';
+}
+
+function catEmoji(cat) {
+  return { health:'🏥', events:'📅', business:'💼', govt:'🏛️', weather:'☁️', news:'📰' }[cat] || '📰';
+}
+
+function timeAgo(dateStr) {
+  const d = new Date(dateStr);
+  if (isNaN(d)) return '';
+  const mins = Math.floor((Date.now() - d) / 60000);
+  if (mins < 1)  return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)  return hrs + 'h ago';
+  return Math.floor(hrs / 24) + 'd ago';
+}
+
+function stripHtml(html) {
+  return (html || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').trim();
+}
+
+// ── Fetch one RSS feed via rss2json ───────────────────────────────────────
+async function fetchFeed(source) {
+  try {
+    const res = await fetch(RSS2JSON + encodeURIComponent(source.url) + '&count=20', { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(data.message || 'Feed error');
+    return (data.items || []).map(item => ({ ...item, _source: source }));
+  } catch (e) {
+    console.warn('Feed failed:', source.name, e.message);
+    return [];
+  }
+}
+
+// ── Global article store ──────────────────────────────────────────────────
+let allArticles = [];
+let activeCategory = 'all';
+let searchQuery = '';
+
+// ── Load all feeds ────────────────────────────────────────────────────────
+async function loadAllFeeds() {
+  const btn = document.getElementById('refreshBtn');
+  if (btn) { btn.textContent = '⏳ Loading…'; btn.disabled = true; }
+
+  showSkeletons();
+
+  // Fetch all sources in parallel
+  const results = await Promise.allSettled(SOURCES.map(fetchFeed));
+  let articles = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+
+  // AI scoring — keep articles with score > 0 (Islamabad relevant)
+  // If score is 0 but it's from a health source, still include
+  articles = articles.filter(a => scoreArticle(a) > 0 || a._source.name === 'Dawn Health');
+
+  // Add category detection
+  articles = articles.map(a => ({ ...a, _cat: detectCategory(a) }));
+
+  // Sort by date
+  articles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+  // Deduplicate by title similarity
+  const seen = new Set();
+  articles = articles.filter(a => {
+    const key = (a.title || '').toLowerCase().slice(0, 40);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  allArticles = articles;
+  renderFeed();
+  updateCounts();
+  updateTrending();
+
+  const now = new Date();
+  document.getElementById('statUpdated').textContent = now.toLocaleTimeString('en-PK', { hour:'2-digit', minute:'2-digit' });
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + now.toLocaleString('en-PK');
+  document.getElementById('statArticles').textContent = articles.length;
+
+  if (btn) { btn.textContent = '↺ Refresh'; btn.disabled = false; }
+}
+
+function renderFeed() {
+  const feed = document.getElementById('newsFeed');
+  let filtered = allArticles;
+
+  if (activeCategory !== 'all') {
+    filtered = filtered.filter(a => a._cat === activeCategory);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(a =>
+      (a.title||'').toLowerCase().includes(q) ||
+      (a.description||'').toLowerCase().includes(q)
+    );
+  }
+
+  if (filtered.length === 0) {
+    feed.innerHTML = `<div class="empty-feed"><div class="icon">🔍</div><p>No articles found for this filter.</p></div>`;
+    return;
+  }
+
+  feed.innerHTML = filtered.slice(0, 40).map(article => {
+    const cat   = article._cat || 'news';
+    const thumb = article.thumbnail || article.enclosure?.link || '';
+    const desc  = stripHtml(article.description || '').slice(0, 120);
+    const ago   = timeAgo(article.pubDate);
+    const score = scoreArticle(article);
+
+    return `
+    <a class="news-card" href="${article.link || '#'}" target="_blank" rel="noopener">
+      ${thumb
+        ? `<img class="news-thumb" src="${thumb}" alt="" onerror="this.style.display='none'" loading="lazy" />`
+        : `<div class="news-thumb-placeholder">${catEmoji(cat)}</div>`
+      }
+      <div class="news-body">
+        <span class="news-cat-badge ${badgeClass(cat)}">${catEmoji(cat)} ${cat.charAt(0).toUpperCase()+cat.slice(1)}</span>
+        ${score >= 8 ? '<span class="ai-tag">🤖 Top Match</span> ' : ''}
+        <div class="news-title">${article.title || 'Untitled'}</div>
+        ${desc ? `<div style="font-size:13px;color:#6b7280;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden">${desc}</div>` : ''}
+        <div class="news-meta">
+          <span class="news-source">${article._source?.icon || '📰'} ${article._source?.name || 'News'}</span>
+          ${ago ? `<span>${ago}</span>` : ''}
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function updateCounts() {
+  document.getElementById('cnt-all').textContent = allArticles.length;
+  for (const cat of ['health','events','business','govt','weather','news']) {
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = allArticles.filter(a => a._cat === cat).length;
+  }
+}
+
+function updateTrending() {
+  const trending = document.getElementById('trendingList');
+  const top = allArticles.slice(0, 7);
+  if (!top.length) return;
+  trending.innerHTML = top.map((a, i) => `
+    <a class="trending-item" href="${a.link||'#'}" target="_blank" style="text-decoration:none;display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6">
+      <span class="trending-num">${i+1}</span>
+      <div>
+        <div class="trending-title">${(a.title||'').slice(0,70)}${(a.title||'').length>70?'…':''}</div>
+        <div class="trending-src">${a._source?.name || ''} · ${timeAgo(a.pubDate)}</div>
+      </div>
+    </a>`).join('');
+}
+
+function showSkeletons() {
+  document.getElementById('newsFeed').innerHTML = Array(5).fill(`
+    <div class="skeleton-card">
+      <div class="skel" style="width:90px;height:70px;border-radius:10px;flex-shrink:0"></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+        <div class="skel" style="height:12px;width:60px"></div>
+        <div class="skel" style="height:16px;width:100%"></div>
+        <div class="skel" style="height:13px;width:75%"></div>
+      </div>
+    </div>`).join('');
+}
+
+function filterCat(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-list li').forEach(li => li.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderFeed();
+}
+
+function searchNews() {
+  searchQuery = document.getElementById('newsSearch').value.trim();
+  renderFeed();
+}
+
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────
+loadAllFeeds();
+</script>
+
+</body>
+</html>
