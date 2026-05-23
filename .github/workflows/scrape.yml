@@ -53,13 +53,4 @@ jobs:
             echo "⚠️  doctors.json not created — scraping may have been blocked"
           fi
 
-      # ── 6. Commit & push if file changed ─────────────────────────────────────
-      - name: Commit updated doctors.json
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add doctors.json
-          git diff --cached --quiet || git commit -m "🔄 Auto-update doctors.json [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # ── 6. Commit & push if file changed ────────────────────────────────────�
