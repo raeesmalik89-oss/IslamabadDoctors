@@ -334,7 +334,7 @@ function resetFilters() {
 // ── BOOKING MODAL ──
 // SETUP: Go to https://formspree.io → New Form → paste the form ID below
 // Replace "YOUR_BOOKING_FORM_ID" with your actual ID (e.g. "xpwzgkbn")
-const BOOKING_ENDPOINT = "https://formspree.io/f/YOUR_BOOKING_FORM_ID";
+const BOOKING_ENDPOINT = "https://formspree.io/f/xqejlepb";
 
 let currentDoctorId = null;
 
