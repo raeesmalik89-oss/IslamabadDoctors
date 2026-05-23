@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List Your Practice – DocBook Islamabad</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🏥</span>
+      <span class="logo-text">DocBook <span class="logo-sub">Islamabad</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="doctors.html">Find Doctors</a></li>
+      <li><a href="register-doctor.html" class="active">List Your Practice</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="doctors.html" class="btn-outline">Find Doctors</a>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Find Doctors</a>
+    <a href="register-doctor.html">List Your Practice</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header reg-header">
+  <div class="container">
+    <h1>List Your Practice on DocBook</h1>
+    <p>Join hundreds of doctors reaching thousands of patients in Islamabad — free to start</p>
+  </div>
+</div>
+
+<!-- BENEFITS STRIP -->
+<section class="benefits-strip">
+  <div class="container benefits-grid">
+    <div class="benefit-item">
+      <span class="benefit-icon">👥</span>
+      <div>
+        <strong>New Patients Daily</strong>
+        <span>Reach patients searching for your specialty right now</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">📅</span>
+      <div>
+        <strong>Online Bookings</strong>
+        <span>Patients book appointments 24/7, even while you sleep</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">✅</span>
+      <div>
+        <strong>Verified Badge</strong>
+        <span>Your PMDC registration shows patients you're trusted</span>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🆓</span>
+      <div>
+        <strong>Free Basic Listing</strong>
+        <span>Start free — upgrade to featured when you're ready</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN FORM -->
+<section class="section">
+  <div class="container reg-layout">
+
+    <!-- FORM CARD -->
+    <div class="reg-form-card">
+      <h2>Doctor / Clinic Registration</h2>
+      <p class="reg-subtitle">Fill in your details below. We'll review and publish your profile within 24 hours.</p>
+
+      <!-- SUCCESS STATE (hidden until form submits) -->
+      <div id="regSuccess" style="display:none" class="reg-success">
+        <div class="reg-success-icon">✅</div>
+        <h3>Application Received!</h3>
+        <p>Thank you for registering. We'll review your profile and publish it within 24 hours. We'll contact you at the WhatsApp number you provided.</p>
+        <a href="doctors.html" class="btn-primary" style="display:inline-block;margin-top:16px;text-decoration:none;padding:12px 24px;">Browse Doctors</a>
+      </div>
+
+      <form id="doctorRegForm" onsubmit="submitDoctorReg(event)">
+
+        <!-- hidden fields for Formspree -->
+        <input type="hidden" name="_subject" value="New Doctor Registration – DocBook Islamabad" />
+        <input type="hidden" name="_replyto" id="regEmailHidden" />
+
+        <div class="form-section-title">Personal Information</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" name="doctor_name" required placeholder="Dr. Muhammad Ali" />
+          </div>
+          <div class="form-group">
+            <label>Gender <span class="req">*</span></label>
+            <select name="gender" required>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>PMDC Registration No. <span class="req">*</span></label>
+            <input type="text" name="pmdc_no" required placeholder="PMDC-XXXXX" />
+          </div>
+          <div class="form-group">
+            <label>Qualification <span class="req">*</span></label>
+            <input type="text" name="qualification" required placeholder="MBBS, FCPS, MS..." />
+          </div>
+        </div>
+
+        <div class="form-section-title">Professional Details</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary Specialty <span class="req">*</span></label>
+            <select name="specialty" required>
+              <option value="">Select Specialty</option>
+              <option>Cardiologist</option>
+              <option>Dermatologist</option>
+              <option>Endocrinologist</option>
+              <option>ENT Specialist</option>
+              <option>Gastroenterologist</option>
+              <option>General Physician</option>
+              <option>General Surgeon</option>
+              <option>Gynecologist</option>
+              <option>Nephrologist</option>
+              <option>Neurologist</option>
+              <option>Neurosurgeon</option>
+              <option>Obstetrician</option>
+              <option>Oncologist</option>
+              <option>Ophthalmologist</option>
+              <option>Orthopedic Surgeon</option>
+              <option>Pediatrician</option>
+              <option>Psychiatrist</option>
+              <option>Psychologist</option>
+              <option>Pulmonologist</option>
+              <option>Radiologist</option>
+              <option>Rheumatologist</option>
+              <option>Urologist</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Years of Experience <span class="req">*</span></label>
+            <select name="experience" required>
+              <option value="">Select</option>
+              <option>1–3 years</option>
+              <option>4–7 years</option>
+              <option>8–12 years</option>
+              <option>13–20 years</option>
+              <option>20+ years</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section-title">Clinic / Practice</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Clinic / Hospital Name <span class="req">*</span></label>
+            <input type="text" name="clinic_name" required placeholder="Al-Shifa Clinic" />
+          </div>
+          <div class="form-group">
+            <label>Area in Islamabad <span class="req">*</span></label>
+            <select name="area" required>
+              <option value="">Select Area</option>
+              <option>F-5</option><option>F-6</option><option>F-7</option><option>F-8</option>
+              <option>F-10</option><option>F-11</option>
+              <option>G-6</option><option>G-7</option><option>G-8</option><option>G-9</option>
+              <option>G-10</option><option>G-11</option><option>G-13</option>
+              <option>H-8</option><option>H-9</option><option>H-11</option>
+              <option>I-8</option><option>I-10</option>
+              <option>Blue Area</option>
+              <option>DHA Phase 1</option><option>DHA Phase 2</option>
+              <option>Bahria Town</option>
+              <option>PWD</option><option>Gulberg</option>
+              <option>Rawalpindi</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Full Clinic Address <span class="req">*</span></label>
+          <input type="text" name="address" required placeholder="Shop 12, Street 4, F-7 Markaz, Islamabad" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Consultation Fee (PKR) <span class="req">*</span></label>
+            <input type="number" name="fee" required placeholder="2000" min="0" />
+          </div>
+          <div class="form-group">
+            <label>Available Timings</label>
+            <input type="text" name="timings" placeholder="Mon–Fri 5pm–8pm" />
+          </div>
+        </div>
+
+        <div class="form-section-title">Contact Information</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp / Phone <span class="req">*</span></label>
+            <input type="tel" name="whatsapp" required placeholder="03XX-XXXXXXX" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" id="regEmail" placeholder="doctor@example.com" oninput="document.getElementById('regEmailHidden').value=this.value" />
+          </div>
+        </div>
+
+        <div class="form-section-title">Listing Plan</div>
+
+        <div class="plan-options">
+          <label class="plan-card">
+            <input type="radio" name="plan" value="Free Basic" required />
+            <div class="plan-body">
+              <div class="plan-name">🆓 Free Basic</div>
+              <div class="plan-price">PKR 0 / month</div>
+              <ul class="plan-features">
+                <li>✓ Profile listed on directory</li>
+                <li>✓ Specialty & area searchable</li>
+                <li>✓ Patient booking requests</li>
+                <li>✗ Not featured/highlighted</li>
+              </ul>
+            </div>
+          </label>
+          <label class="plan-card plan-featured">
+            <input type="radio" name="plan" value="Featured PKR 2000/month" />
+            <div class="plan-body">
+              <div class="plan-badge">Most Popular</div>
+              <div class="plan-name">⭐ Featured</div>
+              <div class="plan-price">PKR 2,000 / month</div>
+              <ul class="plan-features">
+                <li>✓ Everything in Free</li>
+                <li>✓ Top of search results</li>
+                <li>✓ Featured badge on profile</li>
+                <li>✓ Homepage placement</li>
+              </ul>
+            </div>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-top:24px">
+          <label>
+            <input type="checkbox" required style="width:auto;margin-right:8px" />
+            I confirm that my information is accurate and I am a licensed medical professional registered with PMDC.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary reg-submit" id="regSubmitBtn">
+          Submit Registration
+        </button>
+      </form>
+    </div>
+
+    <!-- SIDEBAR INFO -->
+    <aside class="reg-sidebar">
+      <div class="reg-info-card">
+        <h3>How It Works</h3>
+        <div class="reg-steps">
+          <div class="reg-step">
+            <span class="step-num">1</span>
+            <div>
+              <strong>Fill the form</strong>
+              <p>Provide your practice details. Takes 3 minutes.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <span class="step-num">2</span>
+            <div>
+              <strong>We verify</strong>
+              <p>Our team reviews your PMDC registration within 24 hours.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <span class="step-num">3</span>
+            <div>
+              <strong>Go live</strong>
+              <p>Your profile is published and patients start finding you.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <span class="step-num">4</span>
+            <div>
+              <strong>Get bookings</strong>
+              <p>Receive appointment requests directly on WhatsApp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reg-info-card reg-contact-card">
+        <h3>Questions?</h3>
+        <p>Our team is here to help you get set up.</p>
+        <a href="https://wa.me/923001234567?text=Hi%2C%20I%20want%20to%20list%20my%20practice%20on%20DocBook%20Islamabad"
+           target="_blank" class="btn-whatsapp">
+          💬 Chat on WhatsApp
+        </a>
+        <p style="margin-top:12px;font-size:13px;color:#6b7280">
+          Or email us at<br/>
+          <a href="mailto:info@docbook.pk">info@docbook.pk</a>
+        </p>
+      </div>
+
+      <div class="reg-info-card">
+        <h3>Already Listed?</h3>
+        <p style="font-size:14px;color:#6b7280">If you're already on DocBook and want to update your profile or upgrade your plan, contact us on WhatsApp.</p>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">🏥</span>
+      <span class="logo-text">DocBook <span class="logo-sub">Islamabad</span></span>
+      <p>Pakistan's trusted doctor booking platform for Islamabad residents.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="doctors.html">Find Doctors</a></li>
+        <li><a href="register-doctor.html">List Your Practice</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Contact</h4>
+      <ul>
+        <li>📍 Blue Area, Islamabad</li>
+        <li>📞 051-1234567</li>
+        <li>✉️ info@docbook.pk</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 DocBook Islamabad. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Formspree endpoint ──────────────────────────────────────────────────────
+// SETUP: Go to https://formspree.io → New Form → copy the form ID here
+// Replace "YOUR_DOCTOR_REG_FORM_ID" with your actual ID (e.g. "xpwzgkbn")
+const DOCTOR_REG_ENDPOINT = "https://formspree.io/f/YOUR_DOCTOR_REG_FORM_ID";
+
+async function submitDoctorReg(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn  = document.getElementById('regSubmitBtn');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const data = new FormData(form);
+
+  try {
+    const res = await fetch(DOCTOR_REG_ENDPOINT, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('regSuccess').style.display = 'block';
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    btn.textContent = 'Submit Registration';
+    btn.disabled = false;
+    showToast('Submission failed — please try again or contact us on WhatsApp.', 'error');
+  }
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'error' ? ' toast-error' : '');
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

@@ -22,6 +22,7 @@
       <li><a href="doctors.html" class="active">Find Doctors</a></li>
       <li><a href="index.html#specialties">Specialties</a></li>
       <li><a href="index.html#about">About</a></li>
+      <li><a href="register-doctor.html" class="nav-cta">List Your Practice</a></li>
     </ul>
     <div class="nav-actions">
       <button class="btn-outline" onclick="showModal('loginModal')">Login</button>
@@ -129,22 +130,36 @@
     <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
     <h2>Book Appointment</h2>
     <div id="bookingDoctorInfo"></div>
-    <form onsubmit="confirmBooking(event)">
+
+    <!-- Success state -->
+    <div id="bookingSuccess" style="display:none;text-align:center;padding:24px 0">
+      <div style="font-size:48px;margin-bottom:12px">✅</div>
+      <h3 style="margin-bottom:8px">Booking Confirmed!</h3>
+      <p style="color:#6b7280">We've sent your request to the doctor's clinic. They'll contact you on WhatsApp to confirm your slot.</p>
+      <button class="btn-primary" style="margin-top:20px;padding:10px 28px" onclick="closeModal('bookingModal')">Done</button>
+    </div>
+
+    <form id="bookingForm" onsubmit="confirmBooking(event)">
+      <!-- hidden fields -->
+      <input type="hidden" name="_subject" id="bookingSubject" value="New Appointment Booking – DocBook Islamabad" />
+      <input type="hidden" name="doctor_name" id="bookingDoctorName" value="" />
+      <input type="hidden" name="doctor_specialty" id="bookingDoctorSpecialty" value="" />
+
       <div class="form-group">
         <label>Your Full Name</label>
-        <input type="text" required placeholder="Enter your name" />
+        <input type="text" name="patient_name" required placeholder="Enter your name" />
       </div>
       <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" required placeholder="03XX-XXXXXXX" />
+        <label>Phone / WhatsApp</label>
+        <input type="tel" name="patient_phone" required placeholder="03XX-XXXXXXX" />
       </div>
       <div class="form-group">
         <label>Preferred Date</label>
-        <input type="date" required id="bookingDate" />
+        <input type="date" name="preferred_date" required id="bookingDate" />
       </div>
       <div class="form-group">
         <label>Preferred Time</label>
-        <select required>
+        <select name="preferred_time" required>
           <option value="">Select Time Slot</option>
           <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
           <option>12:00 PM</option><option>2:00 PM</option><option>3:00 PM</option>
@@ -154,9 +169,11 @@
       </div>
       <div class="form-group">
         <label>Reason for Visit</label>
-        <textarea rows="2" placeholder="Brief description of your concern..."></textarea>
+        <textarea name="reason" rows="2" placeholder="Brief description of your concern..."></textarea>
       </div>
-      <button type="submit" class="btn-primary" style="width:100%;padding:12px;">Confirm Appointment</button>
+      <button type="submit" class="btn-primary" style="width:100%;padding:12px;" id="bookingSubmitBtn">
+        Confirm Appointment
+      </button>
     </form>
   </div>
 </div>

@@ -332,12 +332,31 @@ function resetFilters() {
 }
 
 // ── BOOKING MODAL ──
+// SETUP: Go to https://formspree.io → New Form → paste the form ID below
+// Replace "YOUR_BOOKING_FORM_ID" with your actual ID (e.g. "xpwzgkbn")
+const BOOKING_ENDPOINT = "https://formspree.io/f/YOUR_BOOKING_FORM_ID";
+
 let currentDoctorId = null;
 
 function openBooking(id) {
   currentDoctorId = id;
   const d = doctors.find(x => x.id === id);
   if (!d) return;
+
+  // Reset form + hide success
+  const form = document.getElementById('bookingForm');
+  const success = document.getElementById('bookingSuccess');
+  if (form)    { form.reset(); form.style.display = ''; }
+  if (success) { success.style.display = 'none'; }
+
+  // Populate hidden fields with doctor info
+  const nameField = document.getElementById('bookingDoctorName');
+  const specField  = document.getElementById('bookingDoctorSpecialty');
+  const subjectField = document.getElementById('bookingSubject');
+  if (nameField)    nameField.value    = d.name;
+  if (specField)     specField.value   = d.specialty;
+  if (subjectField)  subjectField.value = `New Booking: ${d.name} (${d.specialty}) – DocBook`;
+
   const info = document.getElementById('bookingDoctorInfo');
   if (info) {
     info.innerHTML = `
@@ -345,7 +364,7 @@ function openBooking(id) {
         <img src="${d.photo}" alt="${d.name}" />
         <div>
           <h4>${d.name}</h4>
-          <p>${d.specialty} · ${d.clinic}</p>
+          <p>${d.specialty}${d.clinic ? ' · ' + d.clinic : ''}</p>
           <p style="color:var(--primary);font-weight:700">PKR ${d.fee.toLocaleString()} / visit</p>
         </div>
       </div>
@@ -354,10 +373,31 @@ function openBooking(id) {
   showModal('bookingModal');
 }
 
-function confirmBooking(e) {
+async function confirmBooking(e) {
   e.preventDefault();
-  closeModal('bookingModal');
-  showToast('✅ Appointment booked successfully! You will receive a confirmation SMS.', 'success');
+  const btn = document.getElementById('bookingSubmitBtn');
+  if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+
+  const form = document.getElementById('bookingForm');
+  const data = new FormData(form);
+
+  try {
+    const res = await fetch(BOOKING_ENDPOINT, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      if (form) form.style.display = 'none';
+      const success = document.getElementById('bookingSuccess');
+      if (success) success.style.display = 'block';
+    } else {
+      throw new Error('server error');
+    }
+  } catch {
+    if (btn) { btn.textContent = 'Confirm Appointment'; btn.disabled = false; }
+    showToast('Could not send booking — please call the clinic directly.', 'error');
+  }
 }
 
 function showDoctorDetails(id) {

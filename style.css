@@ -337,3 +337,247 @@ input[type=range] { width: 100%; accent-color: var(--primary); }
   .specialties-grid { grid-template-columns: repeat(2, 1fr); }
   .hero { padding: 48px 0 56px; }
 }
+
+/* ── Nav CTA Link ──────────────────────────────────────────────────── */
+.nav-links .nav-cta {
+  background: var(--primary);
+  color: #fff !important;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.nav-links .nav-cta:hover { background: var(--primary-dark); }
+
+/* ── Doctor Registration Page ─────────────────────────────────────── */
+.reg-header {
+  background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 100%);
+}
+
+.benefits-strip {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 28px 0;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.benefit-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.benefit-item strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 2px;
+}
+.benefit-item span {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* layout */
+.reg-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Form card */
+.reg-form-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.reg-form-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.reg-subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.form-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin: 24px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e0f2fe;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.req { color: #ef4444; }
+
+/* Plan cards */
+.plan-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.plan-card {
+  position: relative;
+  cursor: pointer;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.plan-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.plan-card input[type="radio"]:checked + .plan-body {
+  background: #f0fdf4;
+}
+.plan-card:has(input:checked) {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+}
+.plan-card.plan-featured {
+  border-color: #f59e0b;
+}
+.plan-card.plan-featured:has(input:checked) {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+}
+.plan-body {
+  padding: 16px;
+  transition: background 0.2s;
+}
+.plan-badge {
+  display: inline-block;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.plan-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.plan-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+.plan-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.8;
+}
+
+.reg-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+/* Success state */
+.reg-success {
+  text-align: center;
+  padding: 32px 0;
+}
+.reg-success-icon { font-size: 56px; margin-bottom: 16px; }
+.reg-success h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.reg-success p { color: #6b7280; }
+
+/* Sidebar */
+.reg-sidebar { display: flex; flex-direction: column; gap: 20px; }
+.reg-info-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.reg-info-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+}
+.reg-steps { display: flex; flex-direction: column; gap: 16px; }
+.reg-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.step-num {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.reg-step strong { font-size: 14px; font-weight: 600; display: block; margin-bottom: 2px; }
+.reg-step p { font-size: 13px; color: #6b7280; margin: 0; }
+
+.reg-contact-card { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); }
+.btn-whatsapp {
+  display: block;
+  background: #25d366;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.btn-whatsapp:hover { background: #1ebe5d; }
+
+/* Registration responsive */
+@media (max-width: 900px) {
+  .reg-layout { grid-template-columns: 1fr; }
+  .reg-sidebar { order: -1; }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .plan-options { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .reg-form-card { padding: 20px; }
+}
+
+/* Toast error variant */
+.toast-error { background: #ef4444 !important; }
