@@ -9,14 +9,14 @@ Sources:
   4. Shifa International Hospital – /find-a-doctor
   5. Kulsum International Hospital – /find-a-doctor
   6. Advanced International Hospital – /all-doctors
-
+ 
 Usage:
   pip install requests beautifulsoup4 lxml
   python scraper.py
-
+ 
 Outputs: doctors.json  (loaded by the website at runtime)
 """
-
+ 
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -25,7 +25,7 @@ import time
 import hashlib
 import sys
 from datetime import datetime
-
+ 
 # ── HTTP session with browser-like headers ─────────────────────────────────
 SESSION = requests.Session()
 SESSION.headers.update({
@@ -39,10 +39,10 @@ SESSION.headers.update({
 })
 REQUEST_DELAY = 1.5   # seconds between requests (be polite)
 OUTPUT_FILE   = "doctors.json"
-
-
+ 
+ 
 # ── Helpers ─────────────────────────────────────────────────────────────────
-
+ 
 def fetch(url, retries=2):
     """Fetch URL with retries; return BeautifulSoup or None."""
     for attempt in range(retries + 1):
@@ -56,41 +56,70 @@ def fetch(url, retries=2):
             print(f"    ⚠ attempt {attempt+1} failed: {e}")
             time.sleep(3)
     return None
-
-
+ 
+ 
 def stable_id(name, clinic):
     """Generate a stable numeric-ish ID from name+clinic."""
     digest = hashlib.md5(f"{name}|{clinic}".encode()).hexdigest()
     return int(digest[:8], 16) % 900000 + 100000
-
-
+ 
+ 
 def clean(text):
     return " ".join((text or "").split()).strip()
-
-
+ 
+ 
 def parse_fee(text):
     """Extract integer fee from strings like 'Rs. 2,500' or '2500'."""
     if not text:
         return 0
     digits = re.sub(r"[^\d]", "", text)
     return int(digits) if digits else 0
-
-
+ 
+ 
 def parse_exp(text):
     """Extract years of experience from strings like '12 Years Experience'."""
     if not text:
         return 0
     m = re.search(r"(\d+)", text)
     return int(m.group(1)) if m else 0
-
-
+ 
+ 
 def avatar(name, bg="0ea5e9"):
     encoded = "+".join(name.split())
     return f"https://ui-avatars.com/api/?name={encoded}&background={bg}&color=fff&size=128"
-
-
+ 
+ 
+# Known specialty/role keywords — if a "name" matches these it's not a real person
+SPECIALTY_WORDS = {
+    "cardiologist","gynecologist","neurologist","surgeon","physician","specialist",
+    "pediatrician","dentist","dermatologist","psychiatrist","urologist","nephrologist",
+    "pulmonologist","gastroenterologist","rheumatologist","physiotherapy","psychologist",
+    "obstetrician","radiologist","oncologist","pathologist","anesthesiologist",
+    "ophthalmologist","orthopedic","neonatologist","counselor","medicine","consultant",
+    "general","internal","cardiology","neurosurgery","gynaecology","gynecology",
+}
+ 
+def is_person_name(name):
+    """Return True only if name looks like an actual person, not a job title."""
+    if not name or len(name) < 5:
+        return False
+    # Must contain at least one word starting with uppercase (real name pattern)
+    words = name.strip().split()
+    # Reject if first word is a known specialty
+    if words[0].lower().rstrip('s') in SPECIALTY_WORDS:
+        return False
+    # Reject if name contains no proper noun (all lowercase words)
+    has_proper = any(w[0].isupper() for w in words if len(w) > 1)
+    if not has_proper:
+        return False
+    # Must have at least 2 words (first + last name)
+    if len(words) < 2:
+        return False
+    return True
+ 
+ 
 # ── 1. Marham ────────────────────────────────────────────────────────────────
-
+ 
 def scrape_marham(pages=5):
     """
     Marham doctor cards (server-side rendered Next.js).
@@ -98,13 +127,13 @@ def scrape_marham(pages=5):
     """
     results = []
     BG_COLORS = ["0ea5e9", "0f766e", "7c3aed", "db2777", "ea580c"]
-
+ 
     for page in range(1, pages + 1):
         url = f"https://www.marham.pk/doctors/islamabad?page={page}"
         soup = fetch(url)
         if not soup:
             break
-
+ 
         # Marham uses structured divs — try multiple selector patterns
         cards = (
             soup.select("div[class*='doctor-card']") or
@@ -114,7 +143,7 @@ def scrape_marham(pages=5):
             soup.select("div.doctor-listing-card") or
             soup.select("div[data-testid*='doctor']")
         )
-
+ 
         # Fallback: try JSON-LD structured data (Schema.org/Physician)
         if not cards:
             for tag in soup.find_all("script", type="application/ld+json"):
@@ -162,7 +191,7 @@ def scrape_marham(pages=5):
                 except Exception:
                     pass
             continue  # move to next page
-
+ 
         for i, card in enumerate(cards):
             try:
                 # Name
@@ -173,7 +202,7 @@ def scrape_marham(pages=5):
                 name = clean(name_el.get_text()) if name_el else ""
                 if not name or len(name) < 4:
                     continue
-
+ 
                 # Specialty
                 spec_el = (
                     card.select_one("[class*='special']") or
@@ -181,18 +210,18 @@ def scrape_marham(pages=5):
                     card.select_one("[class*='category']")
                 )
                 specialty = clean(spec_el.get_text()) if spec_el else "General Physician"
-
+ 
                 # Experience
                 exp_el = card.select_one("[class*='exp']") or card.select_one("[class*='Exp']")
                 experience = parse_exp(exp_el.get_text() if exp_el else "")
-
+ 
                 # Fee
                 fee_el = (
                     card.select_one("[class*='fee']") or card.select_one("[class*='Fee']") or
                     card.select_one("[class*='price']")
                 )
                 fee = parse_fee(fee_el.get_text() if fee_el else "")
-
+ 
                 # Rating
                 rating_el = (
                     card.select_one("[class*='rating']") or card.select_one("[class*='Rating']") or
@@ -201,7 +230,7 @@ def scrape_marham(pages=5):
                 rating_text = clean(rating_el.get_text()) if rating_el else "0"
                 rating_match = re.search(r"[\d.]+", rating_text)
                 rating = float(rating_match.group()) if rating_match else 0.0
-
+ 
                 # Location
                 loc_el = (
                     card.select_one("[class*='location']") or
@@ -209,14 +238,14 @@ def scrape_marham(pages=5):
                     card.select_one("[class*='area']") or card.select_one("[class*='city']")
                 )
                 area = clean(loc_el.get_text()) if loc_el else "Islamabad"
-
+ 
                 # Profile link
                 link_el = card.select_one("a[href]")
                 profile_url = ""
                 if link_el:
                     href = link_el.get("href", "")
                     profile_url = href if href.startswith("http") else f"https://www.marham.pk{href}"
-
+ 
                 doc = {
                     "id": stable_id(name, specialty),
                     "name": name,
@@ -243,14 +272,14 @@ def scrape_marham(pages=5):
                 results.append(doc)
             except Exception as e:
                 print(f"    ⚠ Marham card parse error: {e}")
-
+ 
         print(f"  ✓ Marham page {page}: +{len(cards)} cards (total so far: {len(results)})")
-
+ 
     return results
-
-
+ 
+ 
 # ── 2. Oladoc ────────────────────────────────────────────────────────────────
-
+ 
 def scrape_oladoc(pages=5):
     """
     Oladoc doctor listings for Islamabad.
@@ -258,13 +287,13 @@ def scrape_oladoc(pages=5):
     """
     results = []
     BG = ["7c3aed", "db2777", "0ea5e9", "0f766e", "b45309"]
-
+ 
     for page in range(1, pages + 1):
         url = f"https://oladoc.com/pakistan/islamabad/doctors?page={page}"
         soup = fetch(url)
         if not soup:
             break
-
+ 
         cards = (
             soup.select("div.doctor-profile-card") or
             soup.select("div[class*='doctor-card']") or
@@ -274,7 +303,7 @@ def scrape_oladoc(pages=5):
             soup.select(".doc-card") or
             soup.select("[data-cy='doctor-card']")
         )
-
+ 
         # JSON-LD fallback
         if not cards:
             for tag in soup.find_all("script", type="application/ld+json"):
@@ -316,7 +345,7 @@ def scrape_oladoc(pages=5):
                 except Exception:
                     pass
             continue
-
+ 
         for i, card in enumerate(cards):
             try:
                 name_el = (
@@ -327,40 +356,40 @@ def scrape_oladoc(pages=5):
                 name = clean(name_el.get_text()) if name_el else ""
                 if not name or len(name) < 4:
                     continue
-
+ 
                 spec_el = (
                     card.select_one("[class*='special']") or
                     card.select_one("[class*='Special']") or
                     card.select_one("small") or card.select_one("span.category")
                 )
                 specialty = clean(spec_el.get_text()) if spec_el else "General Physician"
-
+ 
                 exp_el = card.select_one("[class*='exp']") or card.select_one("[class*='year']")
                 experience = parse_exp(exp_el.get_text() if exp_el else "")
-
+ 
                 fee_el = (
                     card.select_one("[class*='fee']") or card.select_one("[class*='Fee']") or
                     card.select_one("[class*='price']") or card.select_one("[class*='Price']")
                 )
                 fee = parse_fee(fee_el.get_text() if fee_el else "")
-
+ 
                 rating_el = card.select_one("[class*='rating']") or card.select_one("[class*='star']")
                 rating_text = clean(rating_el.get_text()) if rating_el else "0"
                 rm = re.search(r"[\d.]+", rating_text)
                 rating = float(rm.group()) if rm else 0.0
-
+ 
                 loc_el = (
                     card.select_one("[class*='location']") or card.select_one("[class*='city']") or
                     card.select_one("[class*='area']")
                 )
                 area = clean(loc_el.get_text()) if loc_el else "Islamabad"
-
+ 
                 link_el = card.select_one("a[href]")
                 profile_url = ""
                 if link_el:
                     href = link_el.get("href", "")
                     profile_url = href if href.startswith("http") else f"https://oladoc.com{href}"
-
+ 
                 doc = {
                     "id": stable_id(name, specialty + "oladoc"),
                     "name": name,
@@ -387,14 +416,14 @@ def scrape_oladoc(pages=5):
                 results.append(doc)
             except Exception as e:
                 print(f"    ⚠ Oladoc card parse error: {e}")
-
+ 
         print(f"  ✓ Oladoc page {page}: +{len(cards)} cards")
-
+ 
     return results
-
-
+ 
+ 
 # ── 3. InstaCare ─────────────────────────────────────────────────────────────
-
+ 
 def scrape_instacare(pages=3):
     """
     InstaCare doctor listings for Islamabad.
@@ -402,13 +431,13 @@ def scrape_instacare(pages=3):
     """
     results = []
     BG = ["ea580c", "16a34a", "9333ea", "0284c7", "be185d"]
-
+ 
     for page in range(1, pages + 1):
         url = f"https://instacare.pk/doctors/islamabad?page={page}"
         soup = fetch(url)
         if not soup:
             break
-
+ 
         cards = (
             soup.select("div[class*='doctor']") or
             soup.select("div[class*='Doctor']") or
@@ -416,7 +445,7 @@ def scrape_instacare(pages=3):
             soup.select(".doctor-item") or
             soup.select("[data-doctor]")
         )
-
+ 
         if not cards:
             for tag in soup.find_all("script", type="application/ld+json"):
                 try:
@@ -455,7 +484,7 @@ def scrape_instacare(pages=3):
                 except Exception:
                     pass
             continue
-
+ 
         for i, card in enumerate(cards):
             try:
                 name_el = (
@@ -465,25 +494,25 @@ def scrape_instacare(pages=3):
                 name = clean(name_el.get_text()) if name_el else ""
                 if not name or len(name) < 4:
                     continue
-
+ 
                 spec_el = (
                     card.select_one("[class*='special']") or
                     card.select_one("[class*='category']") or card.select_one("small")
                 )
                 specialty = clean(spec_el.get_text()) if spec_el else "General Physician"
-
+ 
                 fee_el = card.select_one("[class*='fee']") or card.select_one("[class*='price']")
                 fee = parse_fee(fee_el.get_text() if fee_el else "")
-
+ 
                 exp_el = card.select_one("[class*='exp']") or card.select_one("[class*='year']")
                 experience = parse_exp(exp_el.get_text() if exp_el else "")
-
+ 
                 link_el = card.select_one("a[href]")
                 profile_url = ""
                 if link_el:
                     href = link_el.get("href", "")
                     profile_url = href if href.startswith("http") else f"https://instacare.pk{href}"
-
+ 
                 doc = {
                     "id": stable_id(name, specialty + "instacare"),
                     "name": name,
@@ -510,14 +539,14 @@ def scrape_instacare(pages=3):
                 results.append(doc)
             except Exception as e:
                 print(f"    ⚠ InstaCare card parse error: {e}")
-
+ 
         print(f"  ✓ InstaCare page {page}: +{len(cards)} cards")
-
+ 
     return results
-
-
+ 
+ 
 # ── 4. Shifa International Hospital ──────────────────────────────────────────
-
+ 
 def scrape_shifa():
     """
     Shifa International Hospital Find-a-Doctor directory.
@@ -528,7 +557,7 @@ def scrape_shifa():
     soup = fetch(url)
     if not soup:
         return results
-
+ 
     cards = (
         soup.select("div[class*='doctor']") or
         soup.select("div.team-member") or
@@ -539,7 +568,7 @@ def scrape_shifa():
         soup.select("div.col-md-4") or   # common Bootstrap grid for team
         soup.select("div.col-lg-3")
     )
-
+ 
     # JSON-LD fallback
     if not cards:
         for tag in soup.find_all("script", type="application/ld+json"):
@@ -579,7 +608,7 @@ def scrape_shifa():
             except Exception:
                 pass
         return results
-
+ 
     for card in cards:
         try:
             name_el = (
@@ -589,16 +618,16 @@ def scrape_shifa():
             name = clean(name_el.get_text()) if name_el else ""
             if not name or len(name) < 4 or not any(c.isupper() for c in name):
                 continue
-
+ 
             spec_el = (
                 card.select_one("[class*='special']") or card.select_one("[class*='dept']") or
                 card.select_one("small") or card.select_one("p") or card.select_one("span.title")
             )
             specialty = clean(spec_el.get_text()) if spec_el else "Specialist"
-
+ 
             qual_el = card.select_one("[class*='qual']") or card.select_one("[class*='degree']")
             qualification = clean(qual_el.get_text()) if qual_el else ""
-
+ 
             doc = {
                 "id": stable_id(name, "Shifa"),
                 "name": name,
@@ -625,33 +654,38 @@ def scrape_shifa():
             results.append(doc)
         except Exception as e:
             print(f"    ⚠ Shifa card parse error: {e}")
-
+ 
     print(f"  ✓ Shifa: +{len(results)} doctors")
     return results
-
-
+ 
+ 
 # ── 5. Kulsum International Hospital ─────────────────────────────────────────
-
+ 
 def scrape_kulsum():
     """
     Kulsum International Hospital Find-a-Doctor.
     URL: https://kih.com.pk/find-a-doctor/
+    Kulsum renders a table/grid: name in heading, specialty in sub-element or sibling.
     """
     results = []
     url = "https://kih.com.pk/find-a-doctor/"
     soup = fetch(url)
     if not soup:
         return results
-
+ 
+    # Try every reasonable card pattern
     cards = (
         soup.select("div[class*='doctor']") or
         soup.select("div.team-member") or
         soup.select("div[class*='physician']") or
+        soup.select("div[class*='staff']") or
         soup.select("article") or
         soup.select("div.col-md-3") or soup.select("div.col-lg-4") or
-        soup.select("li.doctor")
+        soup.select("div.col-sm-6") or
+        soup.select("li.doctor") or
+        soup.select("tr")   # table fallback
     )
-
+ 
     if not cards:
         for tag in soup.find_all("script", type="application/ld+json"):
             try:
@@ -660,7 +694,7 @@ def scrape_kulsum():
                 for item in items:
                     if item.get("@type") in ("Physician", "Person"):
                         name = clean(item.get("name", ""))
-                        if not name or len(name) < 4:
+                        if not is_person_name(name):
                             continue
                         specialty = clean(item.get("medicalSpecialty") or item.get("jobTitle", "Specialist"))
                         doc = {
@@ -690,23 +724,31 @@ def scrape_kulsum():
             except Exception:
                 pass
         return results
-
+ 
     for card in cards:
         try:
+            # Try all heading levels + name-classed elements
             name_el = (
                 card.select_one("h2") or card.select_one("h3") or card.select_one("h4") or
-                card.select_one("[class*='name']") or card.select_one("strong")
+                card.select_one("h5") or
+                card.select_one("[class*='name']") or card.select_one("[class*='title']") or
+                card.select_one("strong") or card.select_one("b")
             )
             name = clean(name_el.get_text()) if name_el else ""
-            if not name or len(name) < 4 or not any(c.isupper() for c in name):
+            if not is_person_name(name):
                 continue
-
+ 
+            # Try multiple selectors for specialty — Kulsum often puts it in p or span.subtitle
             spec_el = (
                 card.select_one("[class*='special']") or card.select_one("[class*='dept']") or
-                card.select_one("small") or card.select_one("span")
+                card.select_one("[class*='designation']") or card.select_one("[class*='position']") or
+                card.select_one("p") or card.select_one("small") or
+                card.select_one("span:not([class*='name'])")
             )
-            specialty = clean(spec_el.get_text()) if spec_el else "Specialist"
-
+            specialty_raw = clean(spec_el.get_text()) if spec_el else ""
+            # Only use it if it doesn't look like another person's name
+            specialty = specialty_raw if specialty_raw and not is_person_name(specialty_raw) else "Specialist"
+ 
             doc = {
                 "id": stable_id(name, "Kulsum"),
                 "name": name,
@@ -733,13 +775,13 @@ def scrape_kulsum():
             results.append(doc)
         except Exception as e:
             print(f"    ⚠ Kulsum card parse error: {e}")
-
+ 
     print(f"  ✓ Kulsum: +{len(results)} doctors")
     return results
-
-
+ 
+ 
 # ── 6. Advanced International Hospital ───────────────────────────────────────
-
+ 
 def scrape_aih():
     """
     Advanced International Hospital All Doctors.
@@ -750,7 +792,7 @@ def scrape_aih():
     soup = fetch(url)
     if not soup:
         return results
-
+ 
     cards = (
         soup.select("div[class*='doctor']") or
         soup.select("div.team-member") or
@@ -760,7 +802,7 @@ def scrape_aih():
         soup.select("div.col-md-4") or soup.select("div.col-lg-3") or
         soup.select("li.team-member")
     )
-
+ 
     if not cards:
         for tag in soup.find_all("script", type="application/ld+json"):
             try:
@@ -799,30 +841,42 @@ def scrape_aih():
             except Exception:
                 pass
         return results
-
+ 
     for card in cards:
         try:
-            name_el = (
-                card.select_one("h2") or card.select_one("h3") or card.select_one("h4") or
-                card.select_one("[class*='name']") or card.select_one("strong") or
-                card.select_one("td:first-child")
-            )
-            name = clean(name_el.get_text()) if name_el else ""
-            if not name or len(name) < 4 or not any(c.isupper() for c in name):
+            # For table rows: AIH uses format where name is in one cell, specialty in another
+            # Try multiple patterns — headings first, then table cells, then any strong/b tag
+            candidates = []
+            for sel in ["h2","h3","h4","h5","[class*='name']","[class*='doctor-name']",
+                        "strong","b","td:first-child","td:nth-child(2)"]:
+                el = card.select_one(sel)
+                if el:
+                    candidates.append(clean(el.get_text()))
+ 
+            # Pick first candidate that looks like a real person name
+            name = ""
+            for c in candidates:
+                if is_person_name(c):
+                    name = c
+                    break
+            if not name:
                 continue
-            # Skip header rows
-            if name.lower() in ("name", "doctor", "physician", "staff"):
-                continue
-
+ 
+            # Specialty: look for sibling element or second table cell
             spec_el = (
                 card.select_one("[class*='special']") or card.select_one("[class*='dept']") or
-                card.select_one("small") or card.select_one("td:nth-child(2)")
+                card.select_one("[class*='designation']") or
+                card.select_one("small") or card.select_one("span.subtitle") or
+                card.select_one("td:nth-child(2)") or card.select_one("td:nth-child(3)")
             )
             specialty = clean(spec_el.get_text()) if spec_el else "Specialist"
-
-            qual_el = card.select_one("[class*='qual']") or card.select_one("td:nth-child(3)")
+            # If specialty looks like a name, clear it
+            if is_person_name(specialty):
+                specialty = "Specialist"
+ 
+            qual_el = card.select_one("[class*='qual']") or card.select_one("td:nth-child(4)")
             qualification = clean(qual_el.get_text()) if qual_el else ""
-
+ 
             doc = {
                 "id": stable_id(name, "AIH"),
                 "name": name,
@@ -849,13 +903,13 @@ def scrape_aih():
             results.append(doc)
         except Exception as e:
             print(f"    ⚠ AIH card parse error: {e}")
-
+ 
     print(f"  ✓ AIH: +{len(results)} doctors")
     return results
-
-
+ 
+ 
 # ── Deduplication ─────────────────────────────────────────────────────────────
-
+ 
 def deduplicate(doctors):
     """Remove near-duplicates by normalised name."""
     seen = set()
@@ -866,46 +920,46 @@ def deduplicate(doctors):
             seen.add(key)
             unique.append(d)
     return unique
-
-
+ 
+ 
 def assign_sequential_ids(doctors):
     for i, d in enumerate(doctors, start=1):
         d["id"] = i
     return doctors
-
-
+ 
+ 
 # ── Main ──────────────────────────────────────────────────────────────────────
-
+ 
 def main():
     print("\n🏥 DocBook Islamabad — Data Scraper")
     print("=" * 44)
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-
+ 
     all_doctors = []
-
+ 
     print("📡 [1/6] Scraping Marham.pk ...")
     all_doctors += scrape_marham(pages=5)
-
+ 
     print(f"\n📡 [2/6] Scraping Oladoc.com ...")
     all_doctors += scrape_oladoc(pages=5)
-
+ 
     print(f"\n📡 [3/6] Scraping InstaCare.pk ...")
     all_doctors += scrape_instacare(pages=3)
-
+ 
     print(f"\n📡 [4/6] Scraping Shifa International Hospital ...")
     all_doctors += scrape_shifa()
-
+ 
     print(f"\n📡 [5/6] Scraping Kulsum International Hospital ...")
     all_doctors += scrape_kulsum()
-
+ 
     print(f"\n📡 [6/6] Scraping Advanced International Hospital ...")
     all_doctors += scrape_aih()
-
+ 
     print(f"\n🔄 Deduplicating {len(all_doctors)} records ...")
     all_doctors = deduplicate(all_doctors)
     all_doctors = assign_sequential_ids(all_doctors)
     print(f"   → {len(all_doctors)} unique doctors after deduplication")
-
+ 
     # Save output
     output = {
         "updated": datetime.utcnow().isoformat() + "Z",
@@ -914,20 +968,21 @@ def main():
     }
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-
+ 
     print(f"\n✅ Saved → {OUTPUT_FILE}")
     print(f"   Total doctors: {len(all_doctors)}")
     print(f"   Finished: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-
+ 
     # Quick source breakdown
     from collections import Counter
     sources = Counter(d["source"] for d in all_doctors)
     for src, cnt in sorted(sources.items(), key=lambda x: -x[1]):
         print(f"   {src:30s} {cnt:>4} doctors")
-
+ 
     return len(all_doctors)
-
-
+ 
+ 
 if __name__ == "__main__":
     count = main()
     sys.exit(0 if count > 0 else 1)
+ 
