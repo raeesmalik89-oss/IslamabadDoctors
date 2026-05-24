@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Doctors in Islamabad – DocBook Islamabad</title>
+  <meta name="description" content="Search and book verified doctors in Islamabad by specialty, area, gender and fee. Cardiologists, gynecologists, dermatologists, pediatricians and more. PMDC registered." />
+  <meta name="keywords" content="find doctor islamabad, doctor near me islamabad, specialist islamabad, book appointment islamabad, PMDC verified doctor, female doctor islamabad, cardiologist islamabad, gynecologist islamabad, pediatrician islamabad" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://raeesmalik89-oss.github.io/IslamabadDoctors/doctors.html" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Find Doctors in Islamabad – DocBook" />
+  <meta property="og:description" content="Search verified doctors by specialty and area in Islamabad. Instant appointment booking." />
+  <meta property="og:url" content="https://raeesmalik89-oss.github.io/IslamabadDoctors/doctors.html" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🏥</span>
+      <span class="logo-text">DocBook <span class="logo-sub">Islamabad</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="doctors.html" class="active">Find Doctors</a></li>
+      <li><a href="index.html#specialties">Specialties</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="register-doctor.html" class="nav-cta">List Your Practice</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-outline" onclick="showModal('loginModal')">Login</button>
+      <button class="btn-primary" onclick="showModal('registerModal')">Register</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Find Doctors</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <h1>Find Doctors in Islamabad</h1>
+    <p>Browse verified doctors by specialty, area, and availability</p>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-bar-sticky">
+  <div class="container search-bar-inner">
+    <input type="text" id="searchInput" placeholder="Search by name, specialty, or condition..." oninput="filterDoctors()" />
+    <select id="filterSpecialty" onchange="filterDoctors()">
+      <option value="">All Specialties</option>
+    </select>
+    <select id="filterArea" onchange="filterDoctors()">
+      <option value="">All Areas</option>
+    </select>
+    <select id="filterGender" onchange="filterDoctors()">
+      <option value="">Any Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    <select id="filterAvail" onchange="filterDoctors()">
+      <option value="">Any Availability</option>
+      <option value="available">Available Today</option>
+    </select>
+    <select id="sortBy" onchange="filterDoctors()">
+      <option value="rating">Sort: Top Rated</option>
+      <option value="fee_asc">Fee: Low to High</option>
+      <option value="fee_desc">Fee: High to Low</option>
+      <option value="experience">Most Experienced</option>
+    </select>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container doctors-page-layout">
+
+  <!-- SIDEBAR FILTERS -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3>Fee Range (PKR)</h3>
+      <div class="range-labels">
+        <span>0</span><span id="feeVal">5,000+</span>
+      </div>
+      <input type="range" id="feeRange" min="0" max="5000" step="500" value="5000" oninput="updateFeeLabel(this.value);filterDoctors()" />
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Specialty</h3>
+      <div id="sidebarSpecialties" class="checkbox-list"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Gender</h3>
+      <label class="radio-label"><input type="radio" name="sgender" value="" onchange="filterDoctors()" checked /> Any</label>
+      <label class="radio-label"><input type="radio" name="sgender" value="Male" onchange="filterDoctors()" /> Male</label>
+      <label class="radio-label"><input type="radio" name="sgender" value="Female" onchange="filterDoctors()" /> Female</label>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Availability</h3>
+      <label class="checkbox-label">
+        <input type="checkbox" id="availToday" onchange="filterDoctors()" /> Available Today
+      </label>
+    </div>
+
+    <button class="btn-outline" style="width:100%;margin-top:8px" onclick="resetFilters()">Reset Filters</button>
+  </aside>
+
+  <!-- RESULTS -->
+  <main class="doctors-main">
+    <div class="results-header">
+      <span id="resultsCount">Loading...</span>
+      <span class="results-city">📍 Islamabad</span>
+      <span id="liveDataBadge" style="display:none;font-size:11px;padding:3px 8px;border-radius:20px;background:#dcfce7;color:#16a34a;font-weight:600;margin-left:8px"></span>
+    </div>
+    <div class="doctors-list" id="doctorsList"></div>
+    <div id="noResults" class="no-results" style="display:none">
+      <div class="no-results-icon">🔍</div>
+      <h3>No doctors found</h3>
+      <p>Try adjusting your filters or search terms</p>
+      <button class="btn-primary" onclick="resetFilters()">Clear Filters</button>
+    </div>
+  </main>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <h2>Book Appointment</h2>
+    <div id="bookingDoctorInfo"></div>
+
+    <!-- Success state -->
+    <div id="bookingSuccess" style="display:none;text-align:center;padding:24px 0">
+      <div style="font-size:48px;margin-bottom:12px">✅</div>
+      <h3 style="margin-bottom:8px">Booking Confirmed!</h3>
+      <p style="color:#6b7280">We've sent your request to the doctor's clinic. They'll contact you on WhatsApp to confirm your slot.</p>
+      <button class="btn-primary" style="margin-top:20px;padding:10px 28px" onclick="closeModal('bookingModal')">Done</button>
+    </div>
+
+    <form id="bookingForm" onsubmit="confirmBooking(event)">
+      <!-- hidden fields -->
+      <input type="hidden" name="_subject" id="bookingSubject" value="New Appointment Booking – DocBook Islamabad" />
+      <input type="hidden" name="doctor_name" id="bookingDoctorName" value="" />
+      <input type="hidden" name="doctor_specialty" id="bookingDoctorSpecialty" value="" />
+
+      <div class="form-group">
+        <label>Your Full Name</label>
+        <input type="text" name="patient_name" required placeholder="Enter your name" />
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" name="patient_phone" required placeholder="03XX-XXXXXXX" />
+      </div>
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date" name="preferred_date" required id="bookingDate" />
+      </div>
+      <div class="form-group">
+        <label>Preferred Time</label>
+        <select name="preferred_time" required>
+          <option value="">Select Time Slot</option>
+          <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+          <option>12:00 PM</option><option>2:00 PM</option><option>3:00 PM</option>
+          <option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option>
+          <option>7:00 PM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Reason for Visit</label>
+        <textarea name="reason" rows="2" placeholder="Brief description of your concern..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;padding:12px;" id="bookingSubmitBtn">
+        Confirm Appointment
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2>Login</h2>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Phone / Email</label>
+        <input type="text" required placeholder="Enter phone or email" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" required placeholder="Enter password" />
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;padding:12px;">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <h2>Create Account</h2>
+    <form onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" required placeholder="Your full name" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" required placeholder="03XX-XXXXXXX" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" required placeholder="Create a password" />
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;padding:12px;">Create Account</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
