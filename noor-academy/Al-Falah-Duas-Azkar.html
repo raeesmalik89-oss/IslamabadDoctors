@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Falah Islamic Academy — مسنون دعائیں اور اذکار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3a;
+    --green-dark: #0f4523;
+    --green-mid: #2d8a50;
+    --green-light: #e8f5ee;
+    --gold: #c8972a;
+    --gold-dark: #9e731a;
+    --gold-light: #fef8e8;
+    --gold-border: #e8c870;
+    --cream: #fdfaf4;
+    --text: #1a1a1a;
+    --border: #c8d8c0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); font-family: 'Noto Nastaliq Urdu', serif; color: var(--text); direction: rtl; }
+  .f-ar { font-family: 'Amiri', 'Scheherazade New', serif; direction: rtl; }
+  .f-ur { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; }
+
+  .print-bar { background: var(--green-dark); color: #fff; text-align: center; padding: 10px; position: sticky; top: 0; z-index: 999; font-family: Arial, sans-serif; font-size: 14px; }
+  .print-bar button { background: var(--gold); color: #fff; border: none; padding: 6px 22px; border-radius: 20px; font-size: 14px; cursor: pointer; margin-right: 12px; font-weight: bold; }
+  @media print { .print-bar { display: none; } }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; }
+
+  .cover { background: linear-gradient(160deg, var(--green-dark) 0%, var(--green) 55%, var(--green-mid) 100%); color: #fff; text-align: center; padding: 50px 30px 40px; border-radius: 0 0 30px 30px; margin-bottom: 28px; }
+  .cover-bismillah { font-family: 'Amiri', serif; font-size: 2.6rem; color: var(--gold-border); margin-bottom: 14px; line-height: 1.4; }
+  .cover-academy { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .cover-academy-en { font-family: 'Georgia', serif; font-size: 1.1rem; color: var(--gold-border); letter-spacing: 2px; margin-bottom: 22px; direction: ltr; font-style: italic; }
+  .cover-divider { width: 120px; height: 2px; background: linear-gradient(to right, transparent, var(--gold-border), transparent); margin: 0 auto 22px; }
+  .cover-title { font-size: 2.2rem; color: #fff; font-weight: 700; margin-bottom: 6px; }
+  .cover-subtitle { font-size: 1.1rem; color: var(--gold-border); }
+  .cover-ornament { font-size: 1.8rem; color: var(--gold-border); margin-top: 18px; letter-spacing: 8px; opacity: .8; }
+
+  .section-header { background: linear-gradient(135deg, var(--green-dark), var(--green)); color: #fff; text-align: center; padding: 16px 24px; border-radius: 14px 14px 0 0; margin-top: 30px; border-bottom: 3px solid var(--gold); }
+  .section-header .sh-label { font-size: .78rem; background: var(--gold); color: #fff; padding: 2px 14px; border-radius: 20px; display: inline-block; margin-bottom: 6px; font-family: Arial, sans-serif; letter-spacing: 1px; }
+  .section-header h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 2px; }
+  .section-header p { font-size: .95rem; opacity: .85; }
+
+  .dhikr-section { background: #fff; border: 2px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; padding: 10px 0; margin-bottom: 8px; }
+  .dhikr-item { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 0; padding: 14px 16px; border-bottom: 1px solid #eef3ea; }
+  .dhikr-item:last-child { border-bottom: none; }
+  .dhikr-item:hover { background: var(--green-light); }
+  .dhikr-num { width: 32px; height: 32px; background: var(--green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .82rem; font-family: Arial, sans-serif; font-weight: bold; flex-shrink: 0; margin-left: 12px; margin-top: 4px; }
+  .dhikr-body { flex: 1; }
+  .dhikr-arabic { font-family: 'Amiri', serif; font-size: 1.55rem; line-height: 2; color: var(--green-dark); text-align: right; margin-bottom: 4px; }
+  .dhikr-urdu { font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.02rem; color: #333; line-height: 2; text-align: right; margin-bottom: 3px; }
+  .dhikr-ref { font-family: 'Noto Nastaliq Urdu', serif; font-size: .82rem; color: var(--gold-dark); }
+  .dhikr-badge { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; margin-right: 10px; align-items: flex-end; }
+  .badge { font-size: .73rem; padding: 3px 10px; border-radius: 12px; font-family: 'Noto Nastaliq Urdu', serif; white-space: nowrap; line-height: 1.6; }
+  .badge-green { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--border); }
+  .badge-gold  { background: var(--gold-light); color: var(--gold-dark); border: 1px solid var(--gold-border); }
+  .badge-blue  { background: #e8f0fe; color: #1a4fa0; border: 1px solid #b3c9f8; }
+  .badge-red   { background: #fce8e8; color: #8b1a1a; border: 1px solid #f0b3b3; }
+
+  .dua-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; background: #fff; border: 2px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-bottom: 8px; }
+  @media (max-width: 600px) { .dua-grid { grid-template-columns: 1fr; } }
+  .dua-card { border-radius: 12px; overflow: hidden; border: 1.5px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .dua-card-top { padding: 10px 14px 8px; background: var(--green); color: #fff; text-align: center; }
+  .dua-card-top.gold-top { background: var(--gold-dark); }
+  .dua-title-ur { font-size: 1rem; font-weight: 600; line-height: 1.8; }
+  .dua-body { padding: 12px 14px 10px; background: #fff; }
+  .dua-arabic { font-family: 'Amiri', serif; font-size: 1.35rem; line-height: 2; color: var(--green-dark); text-align: center; margin-bottom: 6px; }
+  .dua-translit { font-family: Georgia, serif; font-size: .78rem; color: #666; text-align: center; font-style: italic; direction: ltr; margin-bottom: 5px; }
+  .dua-urdu { font-size: .9rem; color: #333; text-align: right; line-height: 2; margin-bottom: 5px; }
+  .dua-ref-small { font-size: .75rem; color: var(--gold-dark); text-align: center; }
+
+  .ayat-box { background: linear-gradient(135deg, var(--green-light), var(--gold-light)); border: 2px solid var(--gold-border); border-radius: 14px; padding: 20px 24px; text-align: center; margin: 20px 0; }
+  .ayat-box .big-ar { font-family: 'Amiri', serif; font-size: 1.75rem; line-height: 2.2; color: var(--green-dark); margin-bottom: 8px; }
+  .ayat-box .ayat-note { font-size: .92rem; color: var(--gold-dark); }
+
+  .footer { background: var(--green-dark); color: rgba(255,255,255,.8); text-align: center; padding: 22px; border-radius: 20px 20px 0 0; margin-top: 30px; font-size: .88rem; }
+  .footer strong { color: var(--gold-border); }
+
+  @media print { body { background: #fff; } .page { padding: 0; } .dhikr-item:hover { background: #fff; } }
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  <span style="font-family:Arial">Al-Falah Islamic Academy — Ctrl+P → Save as PDF → A4</span>
+</div>
+
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+  <div class="cover-academy">الفلاح اسلامک اکیڈمی</div>
+  <div class="cover-academy-en">AL-FALAH ISLAMIC ACADEMY</div>
+  <div class="cover-divider"></div>
+  <div class="cover-title">مسنون دعائیں اور اذکار</div>
+  <div class="cover-subtitle">صبح و شام کے وظائف &nbsp;·&nbsp; روزمرہ کی دعائیں &nbsp;·&nbsp; ۵۰ مستند دعائیں بحوالہ</div>
+  <div class="cover-ornament">❧ ✦ ❧</div>
+</div>
+
+<!-- صبح کے اذکار -->
+<div class="section-header">
+  <div class="sh-label">MORNING ADHKAAR</div>
+  <h2>صبح کے اذکار و وظائف</h2>
+  <p>فجر کے بعد پڑھنے کے اذکار</p>
+</div>
+<div class="dhikr-section">
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">1</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَـٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+      <div class="dhikr-urdu">ہم نے صبح کی اور اللہ کی بادشاہت میں صبح ہوئی، تمام تعریف اللہ کے لیے ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہت اور تعریف ہے، وہ ہر چیز پر قادر ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۷۶ | مسلم: ۲۷۲۳</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">2</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ</div>
+      <div class="dhikr-urdu">اے اللہ! تیرے نام سے ہم نے صبح کی اور تیرے نام سے شام کریں گے، تیرے نام سے جیتے ہیں اور تیرے نام سے مریں گے اور تیری طرف اٹھنا ہے</div>
+      <div class="dhikr-ref">📗 ترمذی: ۳۳۹۱</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">3</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللهُ لَآ إِلَـٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ</div>
+      <div class="dhikr-urdu">آیت الکرسی — اللہ، کوئی معبود نہیں سوائے اس کے، زندہ ہے، قائم رکھنے والا ہے، اسے نہ اونگھ آتی ہے نہ نیند، آسمانوں اور زمین میں جو کچھ ہے اسی کا ہے</div>
+      <div class="dhikr-ref">📗 البقرہ: ۲۵۵ | نسائی: ۹۸۴۸</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">4</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">قُلْ هُوَ اللهُ أَحَدٌ ۞ اللهُ الصَّمَدُ ۞ لَمْ يَلِدْ وَلَمْ يُولَدْ ۞ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ</div>
+      <div class="dhikr-urdu">سورۃ الاخلاص — اللہ ایک ہے، اللہ بے نیاز ہے، نہ اس نے کسی کو جنا نہ وہ کسی سے پیدا ہوا، اور نہ کوئی اس کا ہمسر ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۸۲ | ترمذی: ۳۵۷۵</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">5</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۞ مِن شَرِّ مَا خَلَقَ ۞ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۞ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۞ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ</div>
+      <div class="dhikr-urdu">سورۃ الفلق — طلوع فجر کے رب کی پناہ مانگتا ہوں، ہر بری مخلوق سے، اندھیری رات کے شر سے، گرہوں میں پھونکنے والیوں کے شر سے اور حسد کرنے والے کے شر سے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۸۲ | ترمذی: ۳۵۷۵</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">6</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۞ مَلِكِ النَّاسِ ۞ إِلَـٰهِ النَّاسِ ۞ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۞ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۞ مِنَ الْجِنَّةِ وَالنَّاسِ</div>
+      <div class="dhikr-urdu">سورۃ الناس — لوگوں کے رب، لوگوں کے بادشاہ، لوگوں کے معبود کی پناہ مانگتا ہوں، وسواس ڈالنے والے پیچھے ہٹ جانے والے کے شر سے جو لوگوں کے سینوں میں وسوسہ ڈالتا ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۸۲</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">7</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">سُبْحَانَ اللهِ وَبِحَمْدِهِ</div>
+      <div class="dhikr-urdu">اللہ پاک ہے اور اسی کی تعریف ہے — جو شخص یہ صبح پڑھے اس کے گناہ مٹا دیے جائیں گے چاہے سمندر کی جھاگ جتنے ہوں</div>
+      <div class="dhikr-ref">📗 مسلم: ۲۶۹۱</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱۰۰ مرتبہ</span><span class="badge badge-blue">شام ۱۰۰ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">8</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">لَا إِلَـٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+      <div class="dhikr-urdu">اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہت ہے اور اسی کی تعریف ہے اور وہ ہر شے پر قادر ہے</div>
+      <div class="dhikr-ref">📗 بخاری: ۶۴۰۳ | مسلم: ۲۶۹۲</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱۰۰ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">9</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">حَسْبِيَ اللهُ لَآ إِلَـٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</div>
+      <div class="dhikr-urdu">مجھے اللہ کافی ہے، اس کے سوا کوئی معبود نہیں، اسی پر میں نے توکل کیا اور وہ عرش عظیم کا رب ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۸۱ | التوبۃ: ۱۲۹</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۷ مرتبہ</span><span class="badge badge-blue">شام ۷ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">10</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ أَنْتَ رَبِّي لَآ إِلَـٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
+      <div class="dhikr-urdu">سید الاستغفار — اے اللہ! تو میرا رب ہے، میں تیرا بندہ ہوں، تیرے عہد پر قائم ہوں، اپنی غلطیوں کا اقرار کرتا ہوں، مجھے معاف فرما کیونکہ تیرے سوا کوئی گناہ نہیں بخش سکتا</div>
+      <div class="dhikr-ref">📗 بخاری: ۶۳۰۶</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">11</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">بِسْمِ اللهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
+      <div class="dhikr-urdu">اللہ کے نام سے جس کے نام کے ساتھ زمین و آسمان میں کوئی چیز نقصان نہیں پہنچا سکتی، وہ سننے والا جاننے والا ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۸۸ | ترمذی: ۳۳۸۸</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">12</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">رَضِيتُ بِاللهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا</div>
+      <div class="dhikr-urdu">میں اللہ کے رب ہونے پر، اسلام کے دین ہونے پر اور محمد ﷺ کے نبی ہونے پر راضی ہوں</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۷۲ | ترمذی: ۳۳۸۹</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">13</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ</div>
+      <div class="dhikr-urdu">اے زندہ! اے قائم رکھنے والے! میں تیری رحمت سے فریاد کرتا ہوں، میرے تمام معاملات درست فرما اور مجھے پل بھر کے لیے بھی میرے نفس کے سپرد نہ کر</div>
+      <div class="dhikr-ref">📗 مستدرک حاکم: ۱/۷۳۴ | صحیح الجامع: ۴۷۱۶</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">14</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ</div>
+      <div class="dhikr-urdu">اے اللہ! ہمارے نبی محمد ﷺ پر درود و سلام بھیج — جو صبح یا شام مجھ پر دس بار درود پڑھے اللہ اس پر دس رحمتیں نازل فرمائے گا</div>
+      <div class="dhikr-ref">📗 نسائی: ۱۲۹۷ | صحیح الجامع: ۶۳۵۷</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱۰ مرتبہ</span><span class="badge badge-blue">شام ۱۰ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">15</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ أَجِرْنِي مِنَ النَّارِ</div>
+      <div class="dhikr-urdu">اے اللہ! مجھے جہنم کی آگ سے پناہ دے — جو شخص صبح اور شام سات بار یہ پڑھے اور اسی دن یا رات مر جائے تو اللہ اسے آگ سے محفوظ رکھے گا</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۷۹</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۷ مرتبہ</span><span class="badge badge-blue">شام ۷ مرتبہ</span></div>
+  </div>
+
+</div>
+
+<!-- شام کے اذکار -->
+<div class="section-header">
+  <div class="sh-label">EVENING ADHKAAR</div>
+  <h2>شام کے اذکار و وظائف</h2>
+  <p>عصر کے بعد سے مغرب تک پڑھنے کے اذکار</p>
+</div>
+<div class="dhikr-section">
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">16</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَـٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+      <div class="dhikr-urdu">ہم نے شام کی اور اللہ کی بادشاہت میں شام ہوئی، تمام تعریف اللہ کے لیے ہے، اللہ کے سوا کوئی معبود نہیں، اسی کی بادشاہت اور تعریف ہے</div>
+      <div class="dhikr-ref">📗 مسلم: ۲۷۲۳</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">17</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ</div>
+      <div class="dhikr-urdu">اے اللہ! تیرے نام سے ہم نے شام کی اور تیرے نام سے صبح کریں گے، تیرے نام سے جیتے ہیں اور تیرے نام سے مریں گے اور تیری طرف لوٹنا ہے</div>
+      <div class="dhikr-ref">📗 ترمذی: ۳۳۹۱</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">18</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ مَا أَمْسَى بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ</div>
+      <div class="dhikr-urdu">اے اللہ! جو بھی نعمت شام کو مجھ پر یا تیری کسی مخلوق پر ہے وہ صرف تیری طرف سے ہے، تیرا کوئی شریک نہیں، پس تیرے لیے تعریف اور شکر ہے</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۷۷</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">19</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ</div>
+      <div class="dhikr-urdu">اللہ کے کامل کلمات کی پناہ میں آتا ہوں اس کی مخلوق کے شر سے — جو شخص شام کو تین بار پڑھے رات بھر کیڑوں کا ڈنک اسے نہیں لگے گا</div>
+      <div class="dhikr-ref">📗 مسلم: ۲۷۰۹</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">20</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَّا إِلَـٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ</div>
+      <div class="dhikr-urdu">اے اللہ! غیب اور حاضر کے جاننے والے، آسمانوں اور زمین کے پیدا کرنے والے، ہر چیز کے رب اور مالک! میں گواہی دیتا ہوں کہ تیرے سوا کوئی معبود نہیں، نفس اور شیطان کے شر سے تیری پناہ مانگتا ہوں</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۷۳ | ترمذی: ۳۳۹۲</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">21</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">سُبْحَانَ اللهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+      <div class="dhikr-urdu">اللہ پاک ہے اور اسی کی تعریف ہے، اس کی مخلوق کی تعداد کے برابر، اس کی رضا کے مطابق، اس کے عرش کے وزن کے برابر اور اس کے کلمات کی روشنائی کے برابر</div>
+      <div class="dhikr-ref">📗 مسلم: ۲۷۲۶</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">22</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">أَسْتَغْفِرُ اللهَ الْعَظِيمَ الَّذِي لَا إِلَـٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ</div>
+      <div class="dhikr-urdu">میں اللہ عظیم سے معافی مانگتا ہوں جس کے سوا کوئی معبود نہیں، وہ زندہ اور قائم رہنے والا ہے اور میں اس کی طرف رجوع کرتا ہوں</div>
+      <div class="dhikr-ref">📗 ابوداود: ۱۵۱۷ | ترمذی: ۳۵۷۷</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۳ مرتبہ</span><span class="badge badge-blue">شام ۳ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">23</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ وَالْجُبْنِ وَالْبُخْلِ وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ</div>
+      <div class="dhikr-urdu">اے اللہ! میں تیری پناہ مانگتا ہوں غم، فکر، عاجزی، سستی، بزدلی، بخل، قرض کے بوجھ اور لوگوں کے غلبے سے</div>
+      <div class="dhikr-ref">📗 بخاری: ۶۳۶۹</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">24</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ</div>
+      <div class="dhikr-urdu">اے اللہ! میں تجھ سے دنیا اور آخرت میں معافی اور عافیت مانگتا ہوں</div>
+      <div class="dhikr-ref">📗 ابن ماجہ: ۳۸۷۱ | ابوداود: ۵۰۷۴</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">صبح ۱ مرتبہ</span><span class="badge badge-blue">شام ۱ مرتبہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">25</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ</div>
+      <div class="dhikr-urdu">اے اللہ! تو سلامتی ہے اور تجھ سے سلامتی ہے، بابرکت ہے تو اے جلال اور عزت والے</div>
+      <div class="dhikr-ref">📗 مسلم: ۵۹۱</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">نماز کے بعد</span></div>
+  </div>
+
+</div>
+
+<!-- روزمرہ کی دعائیں -->
+<div class="section-header">
+  <div class="sh-label">DAILY DUAS</div>
+  <h2>روزمرہ کی مسنون دعائیں</h2>
+  <p>گھریلو اور روزانہ کے معمولات کی دعائیں</p>
+</div>
+<div class="dua-grid">
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">سونے سے پہلے</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">بِاسْمِكَ اللّٰهُمَّ أَمُوتُ وَأَحْيَا</div>
+      <div class="dua-translit">Bismika Allāhumma amūtu wa aḥyā</div>
+      <div class="dua-urdu">اے اللہ! تیرے نام سے مرتا اور جیتا ہوں</div>
+      <div class="dua-ref-small">📗 بخاری: ۶۳۲۴</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">نیند سے اٹھنے پر</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
+      <div class="dua-translit">Alḥamdulillāhi-lladhī aḥyānā ba'da mā amātanā</div>
+      <div class="dua-urdu">اللہ کی تعریف جس نے موت کے بعد ہمیں زندہ کیا اور اسی کی طرف اٹھنا ہے</div>
+      <div class="dua-ref-small">📗 بخاری: ۶۳۲۵</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">کھانے سے پہلے</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ</div>
+      <div class="dua-translit">Bismillāhi wa 'alā barakatillāh</div>
+      <div class="dua-urdu">اللہ کے نام سے اور اللہ کی برکت کے ساتھ</div>
+      <div class="dua-ref-small">📗 ابوداود: ۳۷۶۷</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">کھانے کے بعد</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ</div>
+      <div class="dua-translit">Alḥamdulillāhil-ladhī aṭ'amanī hādhā</div>
+      <div class="dua-urdu">اللہ کی تعریف جس نے یہ کھانا کھلایا بغیر میری طاقت کے مجھے رزق دیا</div>
+      <div class="dua-ref-small">📗 ترمذی: ۳۴۵۸</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">گھر سے نکلتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ</div>
+      <div class="dua-translit">Bismillāh, tawakkaltu 'alallāh</div>
+      <div class="dua-urdu">اللہ کے نام سے، اللہ پر بھروسہ کیا اور کوئی طاقت نہیں مگر اللہ سے</div>
+      <div class="dua-ref-small">📗 ابوداود: ۵۰۹۵</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">گھر میں داخل ہوتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">بِسْمِ اللهِ وَلَجْنَا وَبِسْمِ اللهِ خَرَجْنَا وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا</div>
+      <div class="dua-translit">Bismillāhi walajnā wa bismillāhi kharajnā</div>
+      <div class="dua-urdu">اللہ کے نام سے داخل ہوئے اور اللہ کے نام سے نکلے اور اللہ اپنے رب پر بھروسہ کیا</div>
+      <div class="dua-ref-small">📗 ابوداود: ۵۰۹۶</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">مسجد میں داخل ہوتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">اللّٰهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ</div>
+      <div class="dua-translit">Allāhumma-ftaḥ lī abwāba raḥmatik</div>
+      <div class="dua-urdu">اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے</div>
+      <div class="dua-ref-small">📗 مسلم: ۷۱۳</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">مسجد سے نکلتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">اللّٰهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ</div>
+      <div class="dua-translit">Allāhumma innī as'aluka min faḍlik</div>
+      <div class="dua-urdu">اے اللہ! میں تجھ سے تیرا فضل مانگتا ہوں</div>
+      <div class="dua-ref-small">📗 مسلم: ۷۱۳</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">بیت الخلاء میں داخل ہوتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">اللّٰهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ</div>
+      <div class="dua-translit">Allāhumma innī a'ūdhu bika minal-khubuthi wal-khabā'ith</div>
+      <div class="dua-urdu">اے اللہ! میں ناپاک جنوں اور جنیوں سے تیری پناہ مانگتا ہوں</div>
+      <div class="dua-ref-small">📗 بخاری: ۱۴۲ | مسلم: ۳۷۵</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">بیت الخلاء سے نکلتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">غُفْرَانَكَ</div>
+      <div class="dua-translit">Ghufrānak</div>
+      <div class="dua-urdu">اے اللہ! میں تیری مغفرت چاہتا ہوں</div>
+      <div class="dua-ref-small">📗 ابوداود: ۳۰ | ترمذی: ۷</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">وضو کے بعد</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">أَشْهَدُ أَنْ لَّا إِلَـٰهَ إِلَّا اللهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+      <div class="dua-translit">Ashhadu an lā ilāha illallāhu wa ashhadu anna Muḥammadan 'abduhu wa rasūluh</div>
+      <div class="dua-urdu">میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں اور محمد ﷺ اس کے بندے اور رسول ہیں</div>
+      <div class="dua-ref-small">📗 مسلم: ۲۳۴</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">سفر میں (سواری پر)</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ</div>
+      <div class="dua-translit">Subḥānal-ladhī sakhkhara lanā hādhā</div>
+      <div class="dua-urdu">پاک ہے وہ ذات جس نے ہمارے لیے اسے مسخر کیا اور ہم اپنے رب کی طرف لوٹنے والے ہیں</div>
+      <div class="dua-ref-small">📗 مسلم: ۱۳۴۲ | الزخرف: ۱۳</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">کپڑا پہنتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ</div>
+      <div class="dua-translit">Alḥamdulillāhil-ladhī kasānī hādhā</div>
+      <div class="dua-urdu">اللہ کی تعریف جس نے مجھے یہ لباس پہنایا بغیر میری قوت کے</div>
+      <div class="dua-ref-small">📗 ترمذی: ۳۴۵۸</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top gold-top"><div class="dua-title-ur">آئینہ دیکھتے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">اللّٰهُمَّ كَمَا حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي</div>
+      <div class="dua-translit">Allāhumma kamā ḥassanta khalqī fa-ḥassin khuluqī</div>
+      <div class="dua-urdu">اے اللہ! جیسے تو نے میری صورت خوبصورت بنائی، ویسے میرے اخلاق بھی اچھے فرما</div>
+      <div class="dua-ref-small">📗 مسند احمد: ۳۵۴۹</div>
+    </div>
+  </div>
+
+  <div class="dua-card">
+    <div class="dua-card-top"><div class="dua-title-ur">بارش کے وقت</div></div>
+    <div class="dua-body">
+      <div class="dua-arabic">اللّٰهُمَّ صَيِّبًا نَافِعًا</div>
+      <div class="dua-translit">Allāhumma ṣayyiban nāfi'ā</div>
+      <div class="dua-urdu">اے اللہ! نفع بخش بارش برسا</div>
+      <div class="dua-ref-small">📗 بخاری: ۱۰۳۲</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- تحفظ و استغفار -->
+<div class="section-header">
+  <div class="sh-label">PROTECTION & REPENTANCE</div>
+  <h2>تحفظ، استغفار اور اہم دعائیں</h2>
+  <p>آفات سے حفاظت، توبہ اور خاص مواقع کی دعائیں</p>
+</div>
+<div class="dhikr-section">
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">41</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللّٰهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</div>
+      <div class="dhikr-urdu">درود ابراہیمی — اے اللہ! محمد ﷺ اور آل محمد پر ویسے رحمت بھیج جیسے ابراہیم اور آل ابراہیم پر بھیجی، بیشک تو قابل تعریف اور بزرگ ہے، اور محمد ﷺ اور آل محمد پر برکت نازل فرما</div>
+      <div class="dhikr-ref">📗 بخاری: ۳۳۷۰ | مسلم: ۴۰۶</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">نماز میں واجب</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">42</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ وَعَافِنِي فِيمَنْ عَافَيْتَ وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ وَبَارِكْ لِي فِيمَا أَعْطَيْتَ وَقِنِي شَرَّ مَا قَضَيْتَ</div>
+      <div class="dhikr-urdu">دعاء قنوت — اے اللہ! مجھے ہدایت دے، عافیت دے، میری سرپرستی فرما، میرے عطا کردہ میں برکت دے اور تیرے فیصلے کے شر سے بچا</div>
+      <div class="dhikr-ref">📗 ابوداود: ۱۴۲۵ | ترمذی: ۴۶۴</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">وتر میں</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">43</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ</div>
+      <div class="dhikr-urdu">اے اللہ! اپنے حلال سے مجھے حرام سے بے نیاز کر دے اور اپنے فضل سے مجھے غیر سے بے نیاز فرما دے</div>
+      <div class="dhikr-ref">📗 ترمذی: ۳۵۶۳</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">روزانہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">44</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">لَا إِلَـٰهَ إِلَّا اللهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَـٰهَ إِلَّا اللهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَـٰهَ إِلَّا اللهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ</div>
+      <div class="dhikr-urdu">دعاء کرب — اللہ کے سوا کوئی معبود نہیں جو عظیم اور بردبار ہے، عرش عظیم کا رب ہے، آسمانوں، زمین اور عرش کریم کا رب ہے</div>
+      <div class="dhikr-ref">📗 بخاری: ۶۳۴۵ | مسلم: ۲۷۳۰</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-red">تکلیف میں</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">45</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
+      <div class="dhikr-urdu">اے ہمارے رب! ہمیں دنیا میں بھلائی دے اور آخرت میں بھلائی دے اور ہمیں جہنم کے عذاب سے بچا</div>
+      <div class="dhikr-ref">📗 بخاری: ۴۵۲۲ | البقرہ: ۲۰۱</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">روزانہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">46</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">لَّا إِلَـٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ</div>
+      <div class="dhikr-urdu">دعاء یونس علیہ السلام — تیرے سوا کوئی معبود نہیں، تو پاک ہے، بیشک میں ظالموں میں سے تھا</div>
+      <div class="dhikr-ref">📗 ترمذی: ۳۵۰۵ | الانبیاء: ۸۷</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-red">مشکل میں</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">47</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا</div>
+      <div class="dhikr-urdu">اے میرے رب! ان دونوں پر رحم فرما جیسے انہوں نے بچپن میں مجھے پالا</div>
+      <div class="dhikr-ref">📗 الاسراء: ۲۴</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">والدین کے لیے</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">48</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ</div>
+      <div class="dhikr-urdu">دعاء استخارہ — اے اللہ! میں تیرے علم سے بھلائی مانگتا ہوں، تیری قدرت سے توانائی مانگتا ہوں اور تیرے فضل کا سوال کرتا ہوں، بیشک تو قدرت رکھتا ہے اور میں نہیں، تو جانتا ہے اور میں نہیں</div>
+      <div class="dhikr-ref">📗 بخاری: ۱۱۶۲</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">فیصلے سے پہلے</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">49</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">اللّٰهُمَّ رَحْمَتَكَ أَرْجُو فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ وَأَصْلِحْ لِي شَأْنِي كُلَّهُ لَا إِلَـٰهَ إِلَّا أَنْتَ</div>
+      <div class="dhikr-urdu">اے اللہ! میں تیری رحمت کا امیدوار ہوں، مجھے پل بھر بھی اپنے نفس کے سپرد نہ کر، میرے سارے معاملات درست فرما، تیرے سوا کوئی معبود نہیں</div>
+      <div class="dhikr-ref">📗 ابوداود: ۵۰۹۰</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-green">روزانہ</span></div>
+  </div>
+
+  <div class="dhikr-item">
+    <div class="dhikr-num">50</div>
+    <div class="dhikr-body">
+      <div class="dhikr-arabic">سُبْحَانَكَ اللّٰهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَّا إِلَـٰهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div>
+      <div class="dhikr-urdu">کفارۃ المجلس — اے اللہ! تو پاک ہے اور تیری تعریف ہے، گواہی دیتا ہوں کہ تیرے سوا کوئی معبود نہیں، تجھ سے معافی مانگتا اور تیری طرف رجوع کرتا ہوں</div>
+      <div class="dhikr-ref">📗 ترمذی: ۳۴۳۳ | ابوداود: ۴۸۵۸</div>
+    </div>
+    <div class="dhikr-badge"><span class="badge badge-blue">مجلس کے اختتام پر</span></div>
+  </div>
+
+</div>
+
+<div class="ayat-box">
+  <div class="big-ar">وَمَن يَتَّقِ اللهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ وَمَن يَتَوَكَّلْ عَلَى اللهِ فَهُوَ حَسْبُهُ</div>
+  <div class="ayat-note">سورۃ الطلاق: ۲-۳ — جو اللہ سے ڈرے، اللہ اس کے لیے راستہ نکال دے گا اور اسے وہاں سے رزق دے گا جہاں سے اسے گمان بھی نہ ہو، اور جو اللہ پر بھروسہ کرے، وہ اسے کافی ہے</div>
+</div>
+
+<div class="footer">
+  <div style="font-size:1.1rem; margin-bottom:6px; color:var(--gold-border);">الفلاح اسلامک اکیڈمی</div>
+  <div><strong>AL-FALAH ISLAMIC ACADEMY</strong> — اسلامی تعلیم کی بہترین درسگاہ</div>
+  <div style="margin-top:8px; font-size:.8rem; opacity:.7;">تمام دعائیں مستند کتبِ حدیث سے ماخوذ ہیں &nbsp;·&nbsp; For print: Ctrl+P → Save as PDF → A4 Paper</div>
+</div>
+
+</div>
+</body>
+</html>

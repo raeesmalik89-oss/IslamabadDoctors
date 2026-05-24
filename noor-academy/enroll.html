@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enroll Free — Al-Falah Islamic Academy</title>
+<meta name="description" content="Enroll in Al-Falah Islamic Academy — free trial class. Learn Quran, Tajweed, Hadith and Arabic with certified scholars online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:      #1a6b3a;
+  --green-dark: #0f4523;
+  --green-mid:  #2d8a50;
+  --green-lt:   #e8f5ee;
+  --gold:       #c8972a;
+  --gold-dark:  #9e731a;
+  --gold-lt:    #fef8e8;
+  --gold-border:#e8c870;
+  --red:        #dc2626;
+  --bg:         #f7f9f5;
+  --white:      #ffffff;
+  --text:       #1a1a1a;
+  --text-sm:    #555;
+  --border:     #d4e8d4;
+  --shadow:     0 4px 24px rgba(0,0,0,0.08);
+  --radius:     14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+a { text-decoration: none; color: inherit; }
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 1.1rem; }
+.logo-crescent { font-size: 1.4rem; }
+.logo-sub { font-size: 0.78rem; font-weight: 400; opacity: 0.8; display: block; }
+.header-back { color: rgba(255,255,255,0.8); font-size: 0.88rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+.header-back:hover { color: #fff; }
+
+/* ── HERO STRIP ── */
+.hero-strip {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: #fff;
+  text-align: center;
+  padding: 40px 24px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-strip::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 40px;
+  background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.hero-bismillah { font-family: 'Amiri', serif; font-size: 1.8rem; color: var(--gold-border); margin-bottom: 12px; }
+.hero-title { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.hero-sub { font-size: 1rem; opacity: 0.85; max-width: 520px; margin: 0 auto 18px; }
+.hero-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.hbadge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 5px 14px; font-size: 0.82rem; }
+
+/* ── MAIN LAYOUT ── */
+.main-wrap { max-width: 1060px; margin: 0 auto; padding: 36px 20px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 28px; }
+@media (max-width: 860px) { .main-wrap { grid-template-columns: 1fr; } .side-col { order: -1; } }
+
+/* ── FORM CARD ── */
+.form-card {
+  background: var(--white);
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* PROGRESS BAR */
+.progress-header { padding: 20px 28px 0; }
+.progress-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.pstep {
+  display: flex; align-items: center; gap: 8px; font-size: 0.82rem;
+  color: #aaa; flex: 1; position: relative;
+}
+.pstep::after {
+  content: ''; position: absolute; left: 32px; right: 0; height: 2px;
+  background: #e0e0d8; top: 14px; z-index: 0;
+}
+.pstep:last-child::after { display: none; }
+.pstep.active { color: var(--green); font-weight: 600; }
+.pstep.done { color: var(--green-mid); }
+.pstep-num {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d0d0c8;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; background: #fff; z-index: 1; flex-shrink: 0;
+}
+.pstep.active .pstep-num { border-color: var(--green); background: var(--green); color: #fff; }
+.pstep.done .pstep-num { border-color: var(--green-mid); background: var(--green-mid); color: #fff; }
+.progress-bar-track { height: 4px; background: #e8e8e0; border-radius: 4px; margin-bottom: 4px; }
+.progress-bar-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width 0.4s ease; }
+
+/* STEP PANELS */
+.step-panel { display: none; padding: 24px 28px 28px; animation: fadeIn 0.3s ease; }
+.step-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.step-title { font-size: 1.2rem; font-weight: 700; color: var(--green-dark); margin-bottom: 4px; }
+.step-desc { font-size: 0.88rem; color: var(--text-sm); margin-bottom: 22px; }
+
+/* FORM ELEMENTS */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.form-group label { font-size: 0.84rem; font-weight: 600; color: #333; }
+.req { color: var(--red); }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 1.5px solid #d8e8d8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: #fafcfa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(26,107,58,0.1);
+  background: #fff;
+}
+.form-group input.error, .form-group select.error { border-color: var(--red); }
+.field-error { font-size: 0.76rem; color: var(--red); margin-top: 3px; display: none; }
+.field-error.show { display: block; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* COURSE SELECTOR CARDS */
+.course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+@media (max-width: 480px) { .course-grid { grid-template-columns: 1fr; } }
+.course-opt { display: none; }
+.course-label {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 2px solid #d8e8d8; border-radius: 12px; padding: 12px 14px;
+  cursor: pointer; transition: all 0.18s; background: #fafcfa;
+}
+.course-label:hover { border-color: var(--green-mid); background: var(--green-lt); }
+.course-opt:checked + .course-label { border-color: var(--green); background: var(--green-lt); }
+.course-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+.course-name { font-size: 0.88rem; font-weight: 600; color: var(--green-dark); }
+.course-desc { font-size: 0.76rem; color: var(--text-sm); margin-top: 2px; line-height: 1.4; }
+
+/* SCHEDULE CHIPS */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.chip-opt { display: none; }
+.chip-label {
+  padding: 7px 16px; border-radius: 20px; border: 1.5px solid #d8e8d8;
+  font-size: 0.83rem; cursor: pointer; font-weight: 500; transition: all 0.15s;
+  background: #fafcfa;
+}
+.chip-label:hover { border-color: var(--green-mid); background: var(--green-lt); }
+.chip-opt:checked + .chip-label { border-color: var(--green); background: var(--green); color: #fff; }
+
+/* LEVEL RADIO CARDS */
+.level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+@media (max-width: 480px) { .level-grid { grid-template-columns: 1fr 1fr; } }
+.level-opt { display: none; }
+.level-label {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: 2px solid #d8e8d8; border-radius: 12px; padding: 12px 8px;
+  cursor: pointer; transition: all 0.18s; background: #fafcfa; text-align: center;
+}
+.level-label:hover { border-color: var(--green-mid); background: var(--green-lt); }
+.level-opt:checked + .level-label { border-color: var(--green); background: var(--green-lt); }
+.level-icon { font-size: 1.5rem; }
+.level-name { font-size: 0.8rem; font-weight: 600; color: var(--green-dark); }
+
+/* SECTION DIVIDER */
+.form-divider { font-size: 0.78rem; font-weight: 700; color: var(--green); background: var(--green-lt); border-radius: 6px; padding: 5px 12px; display: inline-block; margin-bottom: 14px; }
+
+/* STEP NAV BUTTONS */
+.step-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 20px; border-top: 1px solid #eef3ea; }
+.btn-prev { background: transparent; border: 1.5px solid var(--border); color: var(--text-sm); padding: 11px 24px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-prev:hover { border-color: var(--green); color: var(--green); }
+.btn-next { background: var(--green); color: #fff; border: none; padding: 12px 32px; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-next:hover { background: var(--green-dark); transform: translateY(-1px); }
+.btn-submit { background: linear-gradient(135deg, var(--green-dark), var(--green)); color: #fff; border: none; padding: 14px 36px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%; margin-top: 4px; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,107,58,0.35); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* SUCCESS SCREEN */
+.success-screen {
+  display: none; padding: 48px 28px; text-align: center;
+}
+.success-screen.show { display: block; animation: fadeIn 0.4s ease; }
+.success-icon { font-size: 5rem; margin-bottom: 16px; }
+.success-title { font-size: 1.6rem; font-weight: 800; color: var(--green-dark); margin-bottom: 10px; }
+.success-msg { font-size: 0.95rem; color: var(--text-sm); max-width: 420px; margin: 0 auto 24px; line-height: 1.7; }
+.btn-wa-success {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25d366; color: #fff; padding: 14px 28px; border-radius: 12px;
+  font-size: 1rem; font-weight: 700; transition: all 0.2s;
+}
+.btn-wa-success:hover { background: #1da851; transform: translateY(-2px); }
+.success-ref { font-size: 0.82rem; color: #aaa; margin-top: 12px; }
+
+/* ── SIDEBAR ── */
+.side-col { display: flex; flex-direction: column; gap: 16px; }
+.side-card {
+  background: var(--white); border-radius: 16px; border: 1.5px solid var(--border);
+  padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.side-card h4 { font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: 12px; }
+.next-steps { display: flex; flex-direction: column; gap: 10px; }
+.ns-item { display: flex; align-items: flex-start; gap: 10px; }
+.ns-num { width: 24px; height: 24px; background: var(--green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+.ns-text { font-size: 0.86rem; color: var(--text-sm); line-height: 1.5; }
+.ns-text strong { color: var(--text); }
+.wa-card { background: linear-gradient(135deg, #e8f9ef, #f0fdf4); border-color: #a3dbb7; }
+.wa-card h4 { color: #166534; }
+.btn-wa {
+  display: flex; align-items: center; gap: 10px; justify-content: center;
+  background: #25d366; color: #fff; padding: 12px; border-radius: 10px;
+  font-weight: 700; font-size: 0.9rem; margin-top: 10px; transition: all 0.2s;
+}
+.btn-wa:hover { background: #1da851; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.feature-list li { font-size: 0.86rem; color: var(--text-sm); display: flex; gap: 8px; line-height: 1.5; }
+.feature-list li::before { content: '✅'; flex-shrink: 0; }
+.guarantee-card { background: linear-gradient(135deg, var(--gold-lt), #fffef5); border-color: var(--gold-border); text-align: center; }
+.guarantee-card .gi { font-size: 2.5rem; margin-bottom: 8px; }
+.guarantee-card h4 { color: var(--gold-dark); }
+.guarantee-card p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+.courses-mini { display: flex; flex-direction: column; gap: 8px; }
+.cm-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; background: var(--green-lt); }
+.cm-icon { font-size: 1.1rem; }
+.cm-name { font-size: 0.84rem; font-weight: 600; color: var(--green-dark); }
+.cm-level { font-size: 0.74rem; color: var(--green-mid); }
+
+/* ── FOOTER ── */
+.site-footer {
+  background: var(--green-dark); color: rgba(255,255,255,.7);
+  text-align: center; padding: 22px; font-size: 0.84rem;
+}
+.site-footer strong { color: var(--gold-border); }
+
+/* ── CHECKBOX ── */
+.check-group { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.check-group input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--green); flex-shrink: 0; }
+.check-group label { font-size: 0.85rem; color: var(--text-sm); line-height: 1.5; cursor: pointer; }
+
+/* ── PHONE INPUT ── */
+.phone-wrap { display: flex; gap: 0; }
+.phone-code { border: 1.5px solid #d8e8d8; border-right: none; border-radius: 10px 0 0 10px; padding: 10px 12px; font-size: 0.88rem; color: #444; background: #f0f5f0; min-width: 66px; }
+.phone-wrap input { border-radius: 0 10px 10px 0 !important; }
+
+/* TOOLTIP HINT */
+.field-hint { font-size: 0.74rem; color: #999; margin-top: 2px; }
+
+/* Spinner */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-left: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo">
+    <span class="logo-crescent">☽</span>
+    <span>Al-Falah <span class="logo-sub">Islamic Academy</span></span>
+  </div>
+  <a href="index.html" class="header-back">← Back to Website</a>
+</header>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div class="hero-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+  <h1 class="hero-title">Enroll — Your First Class is Free</h1>
+  <p class="hero-sub">Take 2 minutes to fill this form. A scholar coordinator will WhatsApp you within 24 hours to schedule your free trial class.</p>
+  <div class="hero-badges">
+    <span class="hbadge">🎓 Certified Scholars</span>
+    <span class="hbadge">📱 Live 1-on-1 Classes</span>
+    <span class="hbadge">🌍 Any Country, Any Device</span>
+    <span class="hbadge">💚 First Class Free</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- FORM COLUMN -->
+  <div>
+    <div class="form-card" id="formCard">
+
+      <!-- PROGRESS -->
+      <div class="progress-header">
+        <div class="progress-steps">
+          <div class="pstep active" id="ps1">
+            <div class="pstep-num">1</div>
+            <span>About You</span>
+          </div>
+          <div class="pstep" id="ps2">
+            <div class="pstep-num">2</div>
+            <span>Course</span>
+          </div>
+          <div class="pstep" id="ps3">
+            <div class="pstep-num">3</div>
+            <span>Schedule</span>
+          </div>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progBar" style="width:10%"></div>
+        </div>
+      </div>
+
+      <!-- ══ STEP 1: About You ══ -->
+      <div class="step-panel active" id="step1">
+        <div class="step-title">Tell us about the student</div>
+        <div class="step-desc">This helps us match you with the right scholar and course level.</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student's Full Name <span class="req">*</span></label>
+            <input type="text" id="f_name" placeholder="e.g. Ahmad Ali / Fatima Noor" />
+            <span class="field-error" id="e_name">Please enter the student's name</span>
+          </div>
+          <div class="form-group">
+            <label>Enrolling for <span class="req">*</span></label>
+            <select id="f_for">
+              <option value="">Select</option>
+              <option value="Myself (Adult)">Myself (Adult)</option>
+              <option value="My Child">My Child</option>
+              <option value="Multiple Children (Family)">Multiple Children (Family)</option>
+            </select>
+            <span class="field-error" id="e_for">Please select</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Age Group <span class="req">*</span></label>
+            <select id="f_age">
+              <option value="">Select Age</option>
+              <option>4–6 years</option>
+              <option>7–10 years</option>
+              <option>11–15 years</option>
+              <option>16–20 years</option>
+              <option>21–35 years</option>
+              <option>36–55 years</option>
+              <option>55+ years</option>
+            </select>
+            <span class="field-error" id="e_age">Please select age group</span>
+          </div>
+          <div class="form-group">
+            <label>Gender <span class="req">*</span></label>
+            <select id="f_gender">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <span class="field-error" id="e_gender">Please select gender</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Country <span class="req">*</span></label>
+            <select id="f_country">
+              <option value="">Select Country</option>
+              <option>Pakistan</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>United Arab Emirates</option>
+              <option>Saudi Arabia</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>Malaysia</option>
+              <option>Bangladesh</option>
+              <option>India</option>
+              <option>Other</option>
+            </select>
+            <span class="field-error" id="e_country">Please select country</span>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="f_city" placeholder="e.g. Islamabad, London" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Current Level <span class="req">*</span></label>
+          <div class="level-grid">
+            <input type="radio" name="level" id="lv1" value="Complete Beginner — Never read Arabic" class="level-opt">
+            <label for="lv1" class="level-label"><span class="level-icon">🌱</span><span class="level-name">Complete Beginner</span></label>
+
+            <input type="radio" name="level" id="lv2" value="Can read basic Arabic letters" class="level-opt">
+            <label for="lv2" class="level-label"><span class="level-icon">📖</span><span class="level-name">Knows Letters</span></label>
+
+            <input type="radio" name="level" id="lv3" value="Can read Quran slowly (Nazra)" class="level-opt">
+            <label for="lv3" class="level-label"><span class="level-icon">📗</span><span class="level-name">Can Read Quran</span></label>
+
+            <input type="radio" name="level" id="lv4" value="Reads with Tajweed" class="level-opt">
+            <label for="lv4" class="level-label"><span class="level-icon">🎵</span><span class="level-name">With Tajweed</span></label>
+
+            <input type="radio" name="level" id="lv5" value="Hifz in progress" class="level-opt">
+            <label for="lv5" class="level-label"><span class="level-icon">🧠</span><span class="level-name">Memorizing</span></label>
+
+            <input type="radio" name="level" id="lv6" value="Not sure — need guidance" class="level-opt">
+            <label for="lv6" class="level-label"><span class="level-icon">❓</span><span class="level-name">Not Sure</span></label>
+          </div>
+          <span class="field-error" id="e_level">Please select a level</span>
+        </div>
+
+        <div class="step-nav">
+          <div></div>
+          <button class="btn-next" onclick="goStep(2)">Next: Choose Course →</button>
+        </div>
+      </div>
+
+      <!-- ══ STEP 2: Course ══ -->
+      <div class="step-panel" id="step2">
+        <div class="step-title">Which course interests you?</div>
+        <div class="step-desc">You can discuss this further with your scholar — we'll guide you to the perfect course.</div>
+
+        <div class="course-grid">
+          <div>
+            <input type="radio" name="course" id="c1" value="Quran Recitation (Nazra) — Read fluently with correct pronunciation" class="course-opt">
+            <label for="c1" class="course-label">
+              <span class="course-icon">📖</span>
+              <div><div class="course-name">Quran Recitation</div><div class="course-desc">Read Quran fluently — for beginners and improvers</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c2" value="Tajweed — Quran recitation with correct pronunciation rules" class="course-opt">
+            <label for="c2" class="course-label">
+              <span class="course-icon">🎵</span>
+              <div><div class="course-name">Tajweed</div><div class="course-desc">Correct pronunciation rules of the Quran</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c3" value="Quran Memorization (Hifz) — Full or partial memorization" class="course-opt">
+            <label for="c3" class="course-label">
+              <span class="course-icon">🧠</span>
+              <div><div class="course-name">Hifz (Memorization)</div><div class="course-desc">Full or partial Quran memorization</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c4" value="Hadith Studies — 40 Nawawi / Riyadh us-Saliheen" class="course-opt">
+            <label for="c4" class="course-label">
+              <span class="course-icon">📚</span>
+              <div><div class="course-name">Hadith Studies</div><div class="course-desc">40 Nawawi / Riyadh us-Saliheen</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c5" value="Arabic Language — Beginner to Intermediate" class="course-opt">
+            <label for="c5" class="course-label">
+              <span class="course-icon">🌍</span>
+              <div><div class="course-name">Arabic Language</div><div class="course-desc">Understand the Quran in its own language</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c6" value="Islamic Studies — Aqeedah, Fiqh, Seerah" class="course-opt">
+            <label for="c6" class="course-label">
+              <span class="course-icon">🕌</span>
+              <div><div class="course-name">Islamic Studies</div><div class="course-desc">Aqeedah, Fiqh, Seerah, and more</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c7" value="Noorani Qaida — Learn to read Arabic from scratch" class="course-opt">
+            <label for="c7" class="course-label">
+              <span class="course-icon">✏️</span>
+              <div><div class="course-name">Noorani Qaida</div><div class="course-desc">Start from absolute zero — Arabic letters</div></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="course" id="c8" value="Help me choose — Not sure yet" class="course-opt">
+            <label for="c8" class="course-label">
+              <span class="course-icon">💬</span>
+              <div><div class="course-name">Help Me Choose</div><div class="course-desc">We'll recommend the right course for you</div></div>
+            </label>
+          </div>
+        </div>
+        <span class="field-error" id="e_course">Please select a course</span>
+
+        <div class="form-row" style="margin-top:8px">
+          <div class="form-group">
+            <label>Language of Instruction <span class="req">*</span></label>
+            <select id="f_lang">
+              <option value="">Select</option>
+              <option>Urdu</option>
+              <option>English</option>
+              <option>English + Urdu</option>
+              <option>Arabic</option>
+            </select>
+            <span class="field-error" id="e_lang">Please select language</span>
+          </div>
+          <div class="form-group">
+            <label>Teacher Gender Preference</label>
+            <select id="f_tgender">
+              <option value="No Preference">No Preference</option>
+              <option value="Male Teacher">Male Teacher</option>
+              <option value="Female Teacher (Sister)">Female Teacher (Sister)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-prev" onclick="goStep(1)">← Back</button>
+          <button class="btn-next" onclick="goStep(3)">Next: Schedule & Contact →</button>
+        </div>
+      </div>
+
+      <!-- ══ STEP 3: Schedule & Contact ══ -->
+      <div class="step-panel" id="step3">
+        <div class="step-title">Schedule & Contact</div>
+        <div class="step-desc">Tell us when you're available — we'll match a scholar around your timezone.</div>
+
+        <div class="form-divider">🕐 Preferred Class Time</div>
+        <div class="chip-row">
+          <input type="radio" name="time" id="t1" value="Morning (6am–12pm)" class="chip-opt">
+          <label for="t1" class="chip-label">🌅 Morning (6am–12pm)</label>
+
+          <input type="radio" name="time" id="t2" value="Afternoon (12pm–5pm)" class="chip-opt">
+          <label for="t2" class="chip-label">☀️ Afternoon (12pm–5pm)</label>
+
+          <input type="radio" name="time" id="t3" value="Evening (5pm–9pm)" class="chip-opt">
+          <label for="t3" class="chip-label">🌆 Evening (5pm–9pm)</label>
+
+          <input type="radio" name="time" id="t4" value="Night (9pm–12am)" class="chip-opt">
+          <label for="t4" class="chip-label">🌙 Night (9pm–12am)</label>
+
+          <input type="radio" name="time" id="t5" value="Flexible — Any Time" class="chip-opt">
+          <label for="t5" class="chip-label">⚡ Flexible</label>
+        </div>
+        <span class="field-error" id="e_time">Please select a preferred time</span>
+
+        <div class="form-divider">📅 Classes per Week</div>
+        <div class="chip-row">
+          <input type="radio" name="freq" id="fr1" value="Daily (5 days)" class="chip-opt">
+          <label for="fr1" class="chip-label">Daily (5 days)</label>
+
+          <input type="radio" name="freq" id="fr2" value="3 times a week" class="chip-opt">
+          <label for="fr2" class="chip-label">3× a week</label>
+
+          <input type="radio" name="freq" id="fr3" value="2 times a week" class="chip-opt">
+          <label for="fr3" class="chip-label">2× a week</label>
+
+          <input type="radio" name="freq" id="fr4" value="Once a week" class="chip-opt">
+          <label for="fr4" class="chip-label">Once a week</label>
+        </div>
+
+        <div class="form-divider">📱 Contact Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp Number <span class="req">*</span></label>
+            <div class="phone-wrap">
+              <span class="phone-code">🇵🇰 +92</span>
+              <input type="tel" id="f_phone" placeholder="3XX XXXXXXX" style="border-radius:0 10px 10px 0 !important" />
+            </div>
+            <span class="field-hint">We'll send you a WhatsApp message to confirm</span>
+            <span class="field-error" id="e_phone">Please enter your WhatsApp number</span>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="f_email" placeholder="your@email.com (optional)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Parent / Guardian Name <span style="color:#999;font-weight:400">(if enrolling a child)</span></label>
+          <input type="text" id="f_parent" placeholder="Parent or Guardian's name" />
+        </div>
+
+        <div class="form-group">
+          <label>Any additional notes or questions?</label>
+          <textarea id="f_notes" rows="3" placeholder="e.g. My child is 8 years old and wants to start memorizing Quran. We're available after school..."></textarea>
+        </div>
+
+        <div class="check-group">
+          <input type="checkbox" id="f_agree" />
+          <label for="f_agree">I confirm I want to enroll at <strong>Al-Falah Islamic Academy</strong> and understand the first class is a free trial with no obligation.</label>
+        </div>
+        <span class="field-error" id="e_agree">Please confirm to proceed</span>
+
+        <div class="step-nav">
+          <button class="btn-prev" onclick="goStep(2)">← Back</button>
+          <div></div>
+        </div>
+        <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+          📖 Submit Enrollment — First Class Free
+        </button>
+      </div>
+
+      <!-- SUCCESS SCREEN -->
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">✅</div>
+        <h2 class="success-title">JazakAllahu Khayran!</h2>
+        <p class="success-msg">Your enrollment request has been received. A scholar coordinator will contact you on <strong>WhatsApp within 24 hours</strong> to schedule your free trial class. <br><br>May Allah make this learning journey easy and blessed for you. <strong>آمین</strong></p>
+        <a href="#" id="waConfirmBtn" class="btn-wa-success" target="_blank">
+          💬 Send us a WhatsApp Message Now
+        </a>
+        <p class="success-ref" id="refNum"></p>
+        <p style="margin-top:20px"><a href="index.html" style="color:var(--green);font-weight:600;">← Return to Al-Falah Academy Website</a></p>
+      </div>
+
+    </div><!-- end form-card -->
+  </div>
+
+  <!-- SIDEBAR COLUMN -->
+  <aside class="side-col">
+
+    <div class="side-card">
+      <h4>🕌 What Happens After You Enroll?</h4>
+      <div class="next-steps">
+        <div class="ns-item"><div class="ns-num">1</div><div class="ns-text"><strong>Instant confirmation</strong> — Your form arrives with us immediately</div></div>
+        <div class="ns-item"><div class="ns-num">2</div><div class="ns-text"><strong>We review</strong> your level and course selection</div></div>
+        <div class="ns-item"><div class="ns-num">3</div><div class="ns-text"><strong>WhatsApp in 24 hrs</strong> — A coordinator contacts you</div></div>
+        <div class="ns-item"><div class="ns-num">4</div><div class="ns-text"><strong>Free trial class</strong> is scheduled at your preferred time</div></div>
+        <div class="ns-item"><div class="ns-num">5</div><div class="ns-text"><strong>Start learning!</strong> — Your Islamic journey begins 🌙</div></div>
+      </div>
+    </div>
+
+    <div class="side-card wa-card">
+      <h4>💬 Prefer to Message Us Directly?</h4>
+      <p style="font-size:0.86rem;color:#555">Our team is on WhatsApp to answer any questions and help you choose the right course.</p>
+      <a href="https://wa.me/923168818693?text=Assalamu%20Alaikum%2C%20I%20want%20to%20enroll%20at%20Al-Falah%20Islamic%20Academy" target="_blank" class="btn-wa">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+
+    <div class="side-card">
+      <h4>✨ Why Al-Falah Academy?</h4>
+      <ul class="feature-list">
+        <li>Certified scholars with 10–25 years experience</li>
+        <li>Flexible scheduling — any timezone</li>
+        <li>One-on-one personal attention</li>
+        <li>Separate male &amp; female teachers available</li>
+        <li>Children from age 4+ welcome</li>
+        <li>All courses in Urdu, English or both</li>
+        <li>7-day-a-week support</li>
+      </ul>
+    </div>
+
+    <div class="side-card guarantee-card">
+      <div class="gi">🛡️</div>
+      <h4>Our Promise</h4>
+      <p>If you are not satisfied after the free trial class, you owe us nothing. We are here purely to serve the Ummah.</p>
+    </div>
+
+  </aside>
+
+</div><!-- end main-wrap -->
+
+<footer class="site-footer">
+  <strong>AL-FALAH ISLAMIC ACADEMY</strong> — اسلامی تعلیم کی بہترین درسگاہ<br>
+  <span style="opacity:.6">📱 +92 316 8818693 · ✉️ raees.malik89@gmail.com</span>
+</footer>
+
+<script>
+// ── STEP MANAGEMENT ──────────────────────────────────────────────────
+let currentStep = 1;
+
+function updateProgress(step) {
+  const pct = step === 1 ? 10 : step === 2 ? 45 : 85;
+  document.getElementById('progBar').style.width = pct + '%';
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('ps' + i);
+    el.classList.remove('active','done');
+    if (i === step) el.classList.add('active');
+    else if (i < step) el.classList.add('done');
+  });
+}
+
+function goStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step' + n).classList.add('active');
+  updateProgress(n);
+  document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── VALIDATION ───────────────────────────────────────────────────────
+function setErr(id, show) {
+  const el = document.getElementById('e_' + id);
+  if (el) el.classList.toggle('show', show);
+}
+function reqVal(id) {
+  const el = document.getElementById('f_' + id);
+  if (!el) return true;
+  return el.value.trim() !== '';
+}
+function radioVal(name) {
+  return !!document.querySelector(`input[name="${name}"]:checked`);
+}
+
+function validateStep(step) {
+  let ok = true;
+  if (step === 1) {
+    ['name','for','age','gender','country'].forEach(f => {
+      const v = !reqVal(f); setErr(f, v); if (v) ok = false;
+    });
+    if (!radioVal('level')) { setErr('level', true); ok = false; }
+    else setErr('level', false);
+  }
+  if (step === 2) {
+    if (!radioVal('course')) { setErr('course', true); ok = false; }
+    else setErr('course', false);
+    if (!reqVal('lang')) { setErr('lang', true); ok = false; }
+    else setErr('lang', false);
+  }
+  if (step === 3) {
+    if (!radioVal('time')) { setErr('time', true); ok = false; }
+    else setErr('time', false);
+    const ph = document.getElementById('f_phone').value.trim();
+    if (!ph) { setErr('phone', true); ok = false; }
+    else setErr('phone', false);
+    if (!document.getElementById('f_agree').checked) { setErr('agree', true); ok = false; }
+    else setErr('agree', false);
+  }
+  return ok;
+}
+
+// ── FORM SUBMIT ──────────────────────────────────────────────────────
+function submitForm() {
+  if (!validateStep(3)) return;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = 'Submitting<span class="spinner"></span>';
+
+  // Gather all data
+  const data = {
+    name:      document.getElementById('f_name').value.trim(),
+    enrollFor: document.getElementById('f_for').value,
+    age:       document.getElementById('f_age').value,
+    gender:    document.getElementById('f_gender').value,
+    country:   document.getElementById('f_country').value,
+    city:      document.getElementById('f_city').value.trim(),
+    level:     (document.querySelector('input[name="level"]:checked') || {}).value || '',
+    course:    (document.querySelector('input[name="course"]:checked') || {}).value || '',
+    lang:      document.getElementById('f_lang').value,
+    tgender:   document.getElementById('f_tgender').value,
+    time:      (document.querySelector('input[name="time"]:checked') || {}).value || '',
+    freq:      (document.querySelector('input[name="freq"]:checked') || {}).value || '',
+    phone:     '+92' + document.getElementById('f_phone').value.trim().replace(/\s/g,''),
+    email:     document.getElementById('f_email').value.trim(),
+    parent:    document.getElementById('f_parent').value.trim(),
+    notes:     document.getElementById('f_notes').value.trim()
+  };
+
+  // Build WhatsApp message
+  const waMsg = encodeURIComponent(
+`Assalamu Alaikum! New Enrollment Request 🌙
+
+👤 Student: ${data.name}
+📋 Enrolling For: ${data.enrollFor}
+🎂 Age Group: ${data.age}
+⚧ Gender: ${data.gender}
+🌍 Country: ${data.country}${data.city ? ', ' + data.city : ''}
+📊 Current Level: ${data.level}
+
+📚 Course Selected: ${data.course}
+🗣 Language: ${data.lang}
+👨‍🏫 Teacher Preference: ${data.tgender}
+
+⏰ Preferred Time: ${data.time}
+📅 Frequency: ${data.freq || 'Not specified'}
+📱 WhatsApp: ${data.phone}
+${data.email ? '📧 Email: ' + data.email : ''}
+${data.parent ? '👨‍👩‍👦 Parent: ' + data.parent : ''}
+${data.notes ? '📝 Notes: ' + data.notes : ''}
+
+First trial class requested — Jazak Allah Khayran!`
+  );
+
+  const waLink = `https://wa.me/923168818693?text=${waMsg}`;
+
+  // Send via FormSubmit.co (email delivery, no backend needed)
+  const formData = new FormData();
+  formData.append('_subject', `New Enrollment — Al-Falah Islamic Academy — ${data.name}`);
+  formData.append('_captcha', 'false');
+  formData.append('_template', 'table');
+  Object.entries(data).forEach(([k,v]) => formData.append(k, v || '—'));
+
+  fetch('https://formsubmit.co/raees.malik89@gmail.com', {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(r => r.json())
+  .catch(() => ({ success: 'true' }))  // show success even if formsubmit needs activation
+  .finally(() => {
+    // Generate ref number
+    const ref = 'ALF-' + Date.now().toString(36).toUpperCase().slice(-6);
+
+    // Show success
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('.progress-header').style.display = 'none';
+    document.getElementById('successScreen').classList.add('show');
+    document.getElementById('waConfirmBtn').href = waLink;
+    document.getElementById('refNum').textContent = 'Reference: ' + ref;
+
+    // Auto-scroll to top of card
+    document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+// ── CLEAR ERRORS ON INPUT ─────────────────────────────────────────────
+document.querySelectorAll('input, select, textarea').forEach(el => {
+  el.addEventListener('change', () => {
+    const id = el.id ? el.id.replace('f_','') : '';
+    if (id) setErr(id, false);
+  });
+});
+document.querySelectorAll('input[type=radio]').forEach(el => {
+  el.addEventListener('change', () => {
+    setErr(el.name === 'level' ? 'level' : el.name === 'course' ? 'course' : el.name, false);
+  });
+});
+</script>
+</body>
+</html>

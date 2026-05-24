@@ -1,0 +1,17 @@
+# Word documents & temp files
+*.docx
+*.doc
+~$*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
